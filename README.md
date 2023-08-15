@@ -19,3 +19,4 @@ On a cronjob:
 - Often RSS URLs end with .xml, .rss or .atom but not always
 - Are feed items usually chronological vs reverse-chrono? Are they ever random
   date sorted?
+# bit-cutting-edge
