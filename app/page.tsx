@@ -4,6 +4,8 @@ import Parser from "rss-parser"
 
 const parser = new Parser()
 
+export const revalidate = 10
+
 export default async function Home() {
   // const feed = await parser.parseURL(
   //   "https://www.cambridge.org/core/rss/product/id/FDD872CC2D357744AF3372313641EB91"
