@@ -1,3 +1,4 @@
+import ArticleList from "@/components/article-list"
 import { findArticles } from "@/lib/db/article"
 import Parser from "rss-parser"
 
@@ -29,16 +30,7 @@ export default async function Home() {
   articles = [articles[0]]
   return (
     <main className="px-2 py-12 text-gray-500">
-      <h1 className="text-xl font-bold">{articles.length} Articles</h1>
-      <ul className="mt-12 space-y-6">
-        {articles.map((item) => (
-          <ul key={item.guid} className="">
-            <h2 className="text-lg font-bold text-gray-700">{item.title}</h2>
-            <p className="font-mono">{item.isoDate?.toISOString()}</p>
-            <p className="mt-1">{item.contentSnippet}</p>
-          </ul>
-        ))}
-      </ul>
+      <ArticleList title={`${articles.length} Articles`} articles={articles} />
     </main>
   )
 }
