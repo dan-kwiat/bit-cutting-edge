@@ -53,7 +53,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("guid", "varchar")
     .addColumn("isoDate", "timestamptz")
     // link is unique:
-    .addColumn("link", "varchar", (col) => col.unique())
+    .addColumn("link", "varchar", (col) => col.unique().notNull())
     .addColumn("pubDate", "timestamptz")
     .addColumn("title", "varchar")
     .addColumn("summary", "text")

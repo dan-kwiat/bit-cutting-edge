@@ -15,7 +15,7 @@ export interface Article {
   creator: string | null;
   guid: string | null;
   isoDate: Timestamp | null;
-  link: string | null;
+  link: string;
   pubDate: Timestamp | null;
   title: string | null;
   summary: string | null;
