@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate-down": "npx ts-node --project tsconfig-scripts.json scripts/migrate-down.ts",
+    "migrate-latest": "npx ts-node --project tsconfig-scripts.json scripts/migrate-latest.ts"
   },
   "dependencies": {
     "@types/node": "20.5.0",
@@ -22,5 +24,10 @@
     "rss-parser": "^3.13.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.10.2",
+    "dotenv": "^16.3.1",
+    "pg": "^8.11.3"
   }
 }
