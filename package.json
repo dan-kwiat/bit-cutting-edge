@@ -9,6 +9,7 @@
     "lint": "next lint",
     "migrate-down": "npx ts-node --project tsconfig-scripts.json scripts/migrate-down.ts",
     "migrate-latest": "npx ts-node --project tsconfig-scripts.json scripts/migrate-latest.ts",
+    "seed_db": "npx ts-node --project tsconfig-scripts.json scripts/seed.ts",
     "generate_db_types": "kysely-codegen --url \"env(POSTGRES_URL)\" --out-file \"./lib/db/db.d.ts\""
   },
   "dependencies": {
