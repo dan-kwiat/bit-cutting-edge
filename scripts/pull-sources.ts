@@ -35,7 +35,7 @@ async function persistFeed(source: Source): Promise<Array<ArticleNew>> {
   return await insertArticles(articles)
 }
 
-async function seed() {
+async function main() {
   console.log("Fetching RSS feeds...")
 
   const sources = await findSources({ hasRSS: true })
@@ -54,4 +54,4 @@ async function seed() {
   console.log("Done!")
 }
 
-seed()
+main()
