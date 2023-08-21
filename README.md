@@ -25,6 +25,6 @@ On a cronjob:
 ## Installation
 
 ```
-cp .env .env.local
+cp .env.example .env.local
 pnpm install
 ```
