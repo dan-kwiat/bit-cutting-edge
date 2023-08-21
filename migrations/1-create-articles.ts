@@ -44,6 +44,12 @@ export async function up(db: Kysely<any>): Promise<void> {
     .execute()
 
   await db.schema
+    .createIndex("source_url_rss_index")
+    .on("source")
+    .column("url_rss")
+    .execute()
+
+  await db.schema
     .createTable("article")
     .addColumn("id", "serial", (col) => col.primaryKey())
     // .addColumn("categories",
@@ -92,6 +98,7 @@ export async function down(db: Kysely<any>): Promise<void> {
   await db.schema.dropIndex("article_source_id_index").execute()
   await db.schema.dropIndex("article_isoDate_index").execute()
   await db.schema.dropTable("article").execute()
+  await db.schema.dropIndex("source_url_rss_index").execute()
   await db.schema.dropTable("source").execute()
   await db.schema.dropIndex("topic_umbrella_index").execute()
   await db.schema.dropTable("topic").execute()
