@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "migrate-down": "npx ts-node --project tsconfig-scripts.json scripts/migrate-down.ts",
-    "migrate-latest": "npx ts-node --project tsconfig-scripts.json scripts/migrate-latest.ts"
+    "migrate-latest": "npx ts-node --project tsconfig-scripts.json scripts/migrate-latest.ts",
+    "generate_db_types": "kysely-codegen --url \"env(POSTGRES_URL)\" --out-file \"./lib/db/db.d.ts\""
   },
   "dependencies": {
     "@types/node": "20.5.0",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "@types/pg": "^8.10.2",
     "dotenv": "^16.3.1",
+    "kysely-codegen": "^0.10.1",
     "pg": "^8.11.3"
   }
 }
