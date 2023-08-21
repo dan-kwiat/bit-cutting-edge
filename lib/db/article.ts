@@ -1,33 +1,10 @@
-import {
-  ColumnType,
-  Generated,
-  Insertable,
-  Selectable,
-  Updateable,
-  sql,
-} from "kysely"
+import { Insertable, Selectable, Updateable } from "kysely"
 import { db } from "."
+import { DB } from "./db"
 
-export interface ArticleTable {
-  id: ColumnType<number, never, never> // or Generated<number> ?
-  // categories: string[] | undefined
-  content?: string
-  contentSnippet?: string
-  creator?: string
-  guid?: string
-  isoDate?: ColumnType<Date, string, string>
-  link?: string
-  pubDate?: ColumnType<Date, string, string>
-  title?: string
-  summary?: string
-  source: string
-  topic: "forests" | "oceans"
-  created_at: ColumnType<Date, never, never>
-}
-
-export type Article = Selectable<ArticleTable>
-export type ArticleNew = Insertable<ArticleTable>
-export type ArticleUpdate = Updateable<ArticleTable>
+export type Article = Selectable<DB["article"]>
+export type ArticleNew = Insertable<DB["article"]>
+export type ArticleUpdate = Updateable<DB["article"]>
 
 export async function findArticleById(id: number) {
   return db.selectFrom("article").where("id", "=", id).selectAll().execute()
@@ -46,38 +23,31 @@ export async function filterNewArticles(
       .where(
         "link",
         "in",
-        withLinkAndDate.map((x) => x.link)
+        withLinkAndDate.map((x) => x.link!)
       )
       .select("link")
       .execute()
   ).map((x) => x.link)
 
-  return withLinkAndDate.filter((article) => !seen.includes(article.link))
+  return withLinkAndDate.filter((article) => !seen.includes(article.link!))
 }
 
 export async function findArticles(
-  criteria: Partial<Pick<Article, "title" | "topic">>
+  criteria: Partial<Pick<Article, "topic_id">>
 ) {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
   let query = db.selectFrom("article")
 
-  if (criteria.title) {
-    query = query.where("title", "=", criteria.title)
+  if (criteria.topic_id) {
+    query = query.where("topic_id", "=", criteria.topic_id)
   }
-
-  if (criteria.topic) {
-    query = query.where("topic", "=", criteria.topic)
-  }
-  query = query.offset(Math.floor(Math.random() * 10))
 
   return await query.selectAll().execute()
 }
 
 function stripParams(article: ArticleNew) {
   const {
-    source,
-    topic,
+    source_id,
+    topic_id,
     content,
     contentSnippet,
     creator,
@@ -89,8 +59,8 @@ function stripParams(article: ArticleNew) {
     title,
   } = article
   return {
-    source,
-    topic,
+    source_id,
+    topic_id,
     content,
     contentSnippet,
     creator,

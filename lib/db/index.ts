@@ -1,8 +1,4 @@
 import { createKysely } from "@vercel/postgres-kysely"
-import { ArticleTable } from "./article"
+import { DB } from "./db"
 
-interface Database {
-  article: ArticleTable
-}
-
-export const db = createKysely<Database>()
+export const db = createKysely<DB>()
