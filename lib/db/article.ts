@@ -32,18 +32,25 @@ export async function filterNewArticles(
   return withLinkAndDate.filter((article) => !seen.includes(article.link!))
 }
 
-export async function findArticles(criteria: {
-  topic_ids?: Array<Article["topic_id"]>
-  source_ids?: Array<Article["source_id"]>
-}) {
+export async function findArticles(
+  criteria?: {
+    topic_ids?: Array<Article["topic_id"]>
+    source_ids?: Array<Article["source_id"]>
+  },
+  params?: { limit?: number }
+) {
   let query = db.selectFrom("article")
 
-  if (criteria.topic_ids) {
+  if (criteria?.topic_ids) {
     query = query.where("topic_id", "in", criteria.topic_ids)
   }
 
-  if (criteria.source_ids) {
+  if (criteria?.source_ids) {
     query = query.where("source_id", "in", criteria.source_ids)
+  }
+
+  if (params?.limit) {
+    query = query.limit(params.limit)
   }
 
   return await query.selectAll().execute()
