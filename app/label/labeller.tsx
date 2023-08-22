@@ -38,6 +38,7 @@ export default function Labeller({
     const body: ReqLabelReserve["post"]["body"] = {
       email: "dan@example.com",
     }
+    setArticle(undefined)
     fetch("/api/label/reserve", {
       method: "POST",
       body: JSON.stringify(body),
@@ -121,16 +122,20 @@ export default function Labeller({
   }, [selected])
 
   return (
-    <section>
+    <section className="space-y-8">
+      <h1 className="text-medium text-lg text-blue-500">
+        Here's a paper preview 👓
+      </h1>
       <ArticlePreview article={article} loading={!article} />
-      <div className="mt-12">
-        <TopicRadios
-          umbrellaTopics={umbrellaTopics}
-          selected={selected}
-          setSelected={setSelected}
-          disabled={labelling.persisting || !article}
-        />
-      </div>
+      <h1 className="text-medium text-lg text-blue-500">
+        Which policy area is it most relevant to? 👇
+      </h1>
+      <TopicRadios
+        umbrellaTopics={umbrellaTopics}
+        selected={selected}
+        setSelected={setSelected}
+        disabled={labelling.persisting || !article}
+      />
     </section>
   )
 }
