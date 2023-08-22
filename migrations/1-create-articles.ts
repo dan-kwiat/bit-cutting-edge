@@ -13,7 +13,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("title", "varchar", (col) => col.unique().notNull())
     .addColumn("core", "boolean", (col) => col.notNull())
     .addColumn("notes", "text")
-    .addColumn("created_at", "timestamp", (col) =>
+    .addColumn("created_at", "timestamptz", (col) =>
       col.notNull().defaultTo(sql`now()`)
     )
     .execute()
@@ -38,7 +38,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("geo_region", "varchar")
     .addColumn("open_access", "boolean")
     .addColumn("notes", "text")
-    .addColumn("created_at", "timestamp", (col) =>
+    .addColumn("created_at", "timestamptz", (col) =>
       col.notNull().defaultTo(sql`now()`)
     )
     .execute()
@@ -68,7 +68,10 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("topic_id", "integer", (col) =>
       col.references("topic.id").onDelete("restrict")
     )
-    .addColumn("created_at", "timestamp", (col) =>
+    .addColumn("reserved_at", "timestamptz")
+    .addColumn("labelled_at", "timestamptz")
+    .addColumn("labelled_by_email", "varchar")
+    .addColumn("created_at", "timestamptz", (col) =>
       col.notNull().defaultTo(sql`now()`)
     )
     .execute()

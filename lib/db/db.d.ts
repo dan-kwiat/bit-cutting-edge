@@ -22,6 +22,9 @@ export interface Article {
   summary: string | null;
   source_id: number;
   topic_id: number | null;
+  reserved_at: Timestamp | null;
+  labelled_at: Timestamp | null;
+  labelled_by_email: string | null;
   created_at: Generated<Timestamp>;
 }
 
