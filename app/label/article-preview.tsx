@@ -31,7 +31,7 @@ export default function ArticlePreview({
         </a>
       </h2>
       <p className="text-sm">{article.categories?.join(", ")}</p>
-      <p className="mt-1">{article.contentSnippet}</p>
+      <p className="mt-1 line-clamp-6">{article.contentSnippet}</p>
     </section>
   )
 }
