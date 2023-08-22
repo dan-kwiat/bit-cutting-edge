@@ -2,11 +2,11 @@
 import { Article } from "@/lib/db/article"
 import { useEffect, useState } from "react"
 import { ReqLabelReserve } from "@/app/api/label/reserve/route"
-import ArticleList from "@/components/article-list"
 import { getDateReviver } from "@/lib/format/date-reviver"
 import { ReqLabel } from "@/app/api/label/route"
 import { Topic, UmbrellaTopics } from "@/lib/db/topic"
 import TopicRadios from "./topic-radios"
+import ArticlePreview from "./article-preview"
 
 const articleDateReviver = getDateReviver<Article>([
   "isoDate",
@@ -16,7 +16,9 @@ const articleDateReviver = getDateReviver<Article>([
   "reserved_at",
 ])
 
-export default function ArticleToLabel({
+const MIN_PERSIST_TIME_MS = 1000
+
+export default function Labeller({
   umbrellaTopics,
 }: {
   umbrellaTopics: UmbrellaTopics
@@ -97,7 +99,7 @@ export default function ArticleToLabel({
               persisting: false,
             })
             resolve(null)
-          }, Math.max(1000 - dt, 0))
+          }, Math.max(MIN_PERSIST_TIME_MS - dt, 0))
         })
       })
       .catch((err) => {
@@ -120,11 +122,7 @@ export default function ArticleToLabel({
 
   return (
     <section>
-      <ArticleList
-        title="Article to label"
-        articles={article ? [article] : []}
-        loading={!article}
-      />
+      <ArticlePreview article={article} loading={!article} />
       <div className="mt-12">
         <TopicRadios
           umbrellaTopics={umbrellaTopics}

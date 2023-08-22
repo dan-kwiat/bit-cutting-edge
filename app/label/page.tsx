@@ -1,4 +1,4 @@
-import ArticleToLabel from "./article"
+import Labeller from "./labeller"
 import { findUmbrellaTopics } from "@/lib/db/topic"
 
 export default async function Page() {
@@ -6,7 +6,7 @@ export default async function Page() {
 
   return (
     <main className="px-2 py-12 text-gray-500 mx-auto max-w-7xl">
-      <ArticleToLabel umbrellaTopics={umbrellaTopics} />
+      <Labeller umbrellaTopics={umbrellaTopics} />
     </main>
   )
 }
