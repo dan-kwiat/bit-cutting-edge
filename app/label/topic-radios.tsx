@@ -2,6 +2,17 @@ import { RadioGroup } from "@headlessui/react"
 import { Topic, UmbrellaTopics } from "@/lib/db/topic"
 import Badge from "@/components/badge"
 
+const colorsOfRainbow = [
+  "bg-red-50 border-red-200",
+  "bg-orange-50 border-orange-200",
+  "bg-yellow-50 border-yellow-200",
+  "bg-green-50 border-green-200",
+  "bg-blue-50 border-blue-200",
+  "bg-indigo-50 border-indigo-200",
+  "bg-purple-50 border-purple-200",
+  "bg-pink-50 border-pink-200",
+]
+
 export default function TopicRadios({
   umbrellaTopics,
   selected,
@@ -14,12 +25,17 @@ export default function TopicRadios({
   return (
     <RadioGroup value={selected} onChange={setSelected}>
       <RadioGroup.Label className="sr-only">Policy Area</RadioGroup.Label>
-      <div className="grid grid-cols-12 gap-4">
-        {Object.keys(umbrellaTopics).map((umbrella) => {
+      <div className="grid grid-cols-12 gap-1">
+        {Object.keys(umbrellaTopics).map((umbrella, idx) => {
           return (
-            <div key={umbrella} className="col-span-3">
-              <h2 className="text-lg font-bold">{umbrella}</h2>
-              <div className="space-y-2">
+            <div
+              key={umbrella}
+              className={`col-span-3 p-2 border rounded ${colorsOfRainbow[idx]}`}
+            >
+              <h2 className="text-lg font-bold text-gray-800 text-center">
+                {umbrella}
+              </h2>
+              <div className="space-y-2 mt-2">
                 {umbrellaTopics[umbrella as keyof UmbrellaTopics].map(
                   (item) => (
                     <RadioGroup.Option
@@ -36,41 +52,32 @@ export default function TopicRadios({
                             ? "bg-sky-900 bg-opacity-75 text-white"
                             : "bg-white"
                         }
-                          relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
+                          h-24 relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                       }
                     >
                       {({ active, checked }) => (
-                        <>
-                          <div className="flex w-full items-center justify-between">
-                            <div className="flex items-center">
-                              <div className="text-sm">
-                                <RadioGroup.Label
-                                  as="p"
-                                  className={`font-medium  ${
-                                    checked ? "text-white" : "text-gray-900"
-                                  }`}
-                                >
-                                  {item.title}
-                                </RadioGroup.Label>
-                                <RadioGroup.Description
-                                  as="span"
-                                  className="inline"
-                                >
-                                  {item.core ? (
-                                    <Badge title="Core" color="green" />
-                                  ) : (
-                                    <Badge title="Emerging" color="yellow" />
-                                  )}
-                                </RadioGroup.Description>
-                              </div>
-                            </div>
-                            {checked && (
-                              <div className="shrink-0 text-white">
-                                <CheckIcon className="h-6 w-6" />
-                              </div>
-                            )}
+                        <div className="flex items-center">
+                          <div className="text-md">
+                            <RadioGroup.Label
+                              as="p"
+                              className={`font-normal  ${
+                                checked ? "text-white" : "text-gray-900"
+                              }`}
+                            >
+                              {item.title}
+                            </RadioGroup.Label>
+                            <RadioGroup.Description
+                              as="span"
+                              className="absolute bottom-2 right-2"
+                            >
+                              {item.core ? (
+                                <Badge title="Core" color="green" />
+                              ) : (
+                                <Badge title="Emerging" color="yellow" />
+                              )}
+                            </RadioGroup.Description>
                           </div>
-                        </>
+                        </div>
                       )}
                     </RadioGroup.Option>
                   )
@@ -81,20 +88,5 @@ export default function TopicRadios({
         })}
       </div>
     </RadioGroup>
-  )
-}
-
-function CheckIcon({ className }: { className: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <circle cx={12} cy={12} r={12} fill="#fff" opacity="0.2" />
-      <path
-        d="M7 13l3 3 7-7"
-        stroke="#fff"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   )
 }
