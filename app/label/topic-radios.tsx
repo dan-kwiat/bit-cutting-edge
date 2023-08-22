@@ -1,22 +1,23 @@
-"use client"
-import { useState } from "react"
 import { RadioGroup } from "@headlessui/react"
-import { UmbrellaTopics } from "@/lib/db/topic"
+import { Topic, UmbrellaTopics } from "@/lib/db/topic"
+import Badge from "@/components/badge"
 
 export default function TopicRadios({
   umbrellaTopics,
+  selected,
+  setSelected,
 }: {
   umbrellaTopics: UmbrellaTopics
+  selected: Topic | null
+  setSelected: (topic: Topic) => void
 }) {
-  const [selected, setSelected] = useState(umbrellaTopics["HASED"][0])
-
   return (
     <RadioGroup value={selected} onChange={setSelected}>
       <RadioGroup.Label className="sr-only">Policy Area</RadioGroup.Label>
       <div className="grid grid-cols-12 gap-4">
         {Object.keys(umbrellaTopics).map((umbrella) => {
           return (
-            <div className="col-span-3">
+            <div key={umbrella} className="col-span-3">
               <h2 className="text-lg font-bold">{umbrella}</h2>
               <div className="space-y-2">
                 {umbrellaTopics[umbrella as keyof UmbrellaTopics].map(
@@ -30,12 +31,12 @@ export default function TopicRadios({
                             ? "ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300"
                             : ""
                         }
-                      ${
-                        checked
-                          ? "bg-sky-900 bg-opacity-75 text-white"
-                          : "bg-white"
-                      }
-                        relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
+                        ${
+                          checked
+                            ? "bg-sky-900 bg-opacity-75 text-white"
+                            : "bg-white"
+                        }
+                          relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                       }
                     >
                       {({ active, checked }) => (
@@ -53,16 +54,13 @@ export default function TopicRadios({
                                 </RadioGroup.Label>
                                 <RadioGroup.Description
                                   as="span"
-                                  className={`inline ${
-                                    checked ? "text-sky-100" : "text-gray-500"
-                                  }`}
+                                  className="inline"
                                 >
-                                  <span>
-                                    {item.umbrella}/
-                                    {item.core ? "Core" : "Optional"}
-                                  </span>{" "}
-                                  <span aria-hidden="true">&middot;</span>{" "}
-                                  <span>{item.created_at.toISOString()}</span>
+                                  {item.core ? (
+                                    <Badge title="Core" color="green" />
+                                  ) : (
+                                    <Badge title="Emerging" color="yellow" />
+                                  )}
                                 </RadioGroup.Description>
                               </div>
                             </div>
