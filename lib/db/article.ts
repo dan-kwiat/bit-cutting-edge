@@ -7,13 +7,24 @@ import {
 } from "kysely"
 import { db } from "."
 import { DB } from "./db"
+import { Source } from "./source"
 
 export type Article = Selectable<DB["article"]>
 export type ArticleNew = Insertable<DB["article"]>
 export type ArticleUpdate = Updateable<DB["article"]>
 
-export async function findArticleById(id: number) {
-  return db.selectFrom("article").where("id", "=", id).selectAll().execute()
+export type ArticleWithSourceTitle = Article & { source_title: Source["title"] }
+
+export async function findArticleByID(
+  id: number
+): Promise<ArticleWithSourceTitle | undefined> {
+  return await db
+    .selectFrom("article")
+    .where("article.id", "=", id)
+    .innerJoin("source", "article.source_id", "source.id")
+    .selectAll("article")
+    .select("source.title as source_title")
+    .executeTakeFirst()
 }
 
 export async function filterNewArticles(
@@ -124,8 +135,10 @@ const LABELLING_TIMEOUT_SQL =
     "reserved_at"
   >
 
-export async function reserveArticle(email: string) {
-  return (await db
+export async function reserveArticle(
+  email: string
+): Promise<ArticleWithSourceTitle | undefined> {
+  const article = (await db
     .with("article_to_label", (db) =>
       db
         .selectFrom("article")
@@ -136,7 +149,8 @@ export async function reserveArticle(email: string) {
             eb("reserved_at", "<", LABELLING_TIMEOUT_SQL),
           ])
         )
-        .select("id")
+        .innerJoin("source", "article.source_id", "source.id")
+        .select(["article.id", "source.title as source_title"])
         .limit(1)
     )
     .updateTable("article")
@@ -147,8 +161,9 @@ export async function reserveArticle(email: string) {
     .from("article_to_label")
     .where("article.id", "=", sql`article_to_label.id`)
     .returningAll()
-    .executeTakeFirst()) as Article | undefined
-  // keysely thinks the return type is from `article_to_label` but it's actually from `article`
+    .executeTakeFirst()) as ArticleWithSourceTitle | undefined
+  // keysely can't handle the types here, because of complicated merge of `article` and `article_to_label`
+  return article
 }
 
 export async function labelReservedArticle(id: number, topic_id: number) {

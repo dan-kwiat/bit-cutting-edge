@@ -1,17 +1,17 @@
-import { Article } from "@/lib/db/article"
+import { ArticleWithSourceTitle } from "@/lib/db/article"
 
 export default function ArticlePreview({
   loading,
   article,
 }: {
   loading?: boolean
-  article: Article | undefined
+  article: ArticleWithSourceTitle | undefined
 }) {
   if (loading) {
     return (
       <section className="bg-gray-50 p-4 rounded border">
         <h2 className="text-lg font-bold text-gray-700">Loading article...</h2>
-        {/* <p className="text-sm">{article.categories?.join(", ")}</p> */}
+        <p className="text-sm">---------------</p>
         <p className="mt-1 line-clamp-6">
           ................................................................................
           ................................................................................
@@ -49,7 +49,8 @@ export default function ArticlePreview({
           {article.title}
         </a>
       </h2>
-      <p className="text-sm">{article.categories?.join(", ")}</p>
+      <p className="text-sm">{article.source_title}</p>
+      {/* <p className="text-sm">{article.categories?.join(", ")}</p> */}
       <p className="mt-1 line-clamp-6">{article.contentSnippet}</p>
     </section>
   )

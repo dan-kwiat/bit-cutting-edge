@@ -1,4 +1,4 @@
-import { Article, reserveArticle } from "@/lib/db/article"
+import { ArticleWithSourceTitle, reserveArticle } from "@/lib/db/article"
 import { NextResponse } from "next/server"
 
 export interface ReqLabelReserve {
@@ -7,7 +7,7 @@ export interface ReqLabelReserve {
       email: string
     }
     response: {
-      article: Article | undefined
+      article: ArticleWithSourceTitle | undefined
     }
   }
 }

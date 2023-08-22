@@ -24,7 +24,8 @@ export default function Labeller({
   umbrellaTopics: UmbrellaTopics
 }) {
   const [articleCount, setArticleCount] = useState(1)
-  const [article, setArticle] = useState<Article | undefined>()
+  const [article, setArticle] =
+    useState<ReqLabelReserve["post"]["response"]["article"]>()
   const [selected, setSelected] = useState<Topic | null>(null)
   const [labelling, setLabelling] = useState<{
     persisting: boolean
@@ -123,11 +124,11 @@ export default function Labeller({
 
   return (
     <section className="space-y-8">
-      <h1 className="text-medium text-lg text-blue-500">
+      <h1 className="text-medium text-lg text-pink-500">
         Here's a paper preview 👓
       </h1>
       <ArticlePreview article={article} loading={!article} />
-      <h1 className="text-medium text-lg text-blue-500">
+      <h1 className="text-medium text-lg text-pink-500">
         Which policy area is it most relevant to? 👇
       </h1>
       <TopicRadios
