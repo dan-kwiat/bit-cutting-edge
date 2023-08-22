@@ -63,6 +63,7 @@ export default function ArticleToLabel({
     if (labelling.persisting || labelling.lastLabelled?.id === article.id) {
       return
     }
+    const t1 = new Date().getTime()
     setLabelling((prev) => ({
       ...prev,
       persisting: true,
@@ -85,10 +86,18 @@ export default function ArticleToLabel({
       .then((data: ReqLabelReserve["post"]["response"]) => {
         console.log("successfully labelled article")
         console.log(data.article)
-        setArticleCount((prev) => prev + 1)
-        setLabelling({
-          lastLabelled: data.article,
-          persisting: false,
+        // Ensure user sees persisting state for at least 1 second:
+        const t2 = new Date().getTime()
+        const dt = t2 - t1
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            setArticleCount((prev) => prev + 1)
+            setLabelling({
+              lastLabelled: data.article,
+              persisting: false,
+            })
+            resolve(null)
+          }, Math.max(1000 - dt, 0))
         })
       })
       .catch((err) => {
@@ -121,6 +130,7 @@ export default function ArticleToLabel({
           umbrellaTopics={umbrellaTopics}
           selected={selected}
           setSelected={setSelected}
+          disabled={labelling.persisting || !article}
         />
       </div>
     </section>

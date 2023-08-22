@@ -17,13 +17,15 @@ export default function TopicRadios({
   umbrellaTopics,
   selected,
   setSelected,
+  disabled,
 }: {
   umbrellaTopics: UmbrellaTopics
   selected: Topic | null
   setSelected: (topic: Topic) => void
+  disabled?: boolean
 }) {
   return (
-    <RadioGroup value={selected} onChange={setSelected}>
+    <RadioGroup value={selected} onChange={setSelected} disabled={disabled}>
       <RadioGroup.Label className="sr-only">Policy Area</RadioGroup.Label>
       <div className="grid grid-cols-12 gap-1">
         {Object.keys(umbrellaTopics).map((umbrella, idx) => {
@@ -41,7 +43,7 @@ export default function TopicRadios({
                     <RadioGroup.Option
                       key={item.id}
                       value={item}
-                      className={({ active, checked }) =>
+                      className={({ active, checked, disabled }) =>
                         `${
                           active
                             ? "ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300"
@@ -52,7 +54,8 @@ export default function TopicRadios({
                             ? "bg-sky-900 bg-opacity-75 text-white"
                             : "bg-white"
                         }
-                          h-24 relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
+                        ${disabled ? "opacity-50" : ""}
+                        h-24 relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                       }
                     >
                       {({ active, checked }) => (
