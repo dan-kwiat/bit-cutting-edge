@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@headlessui/react': ^1.7.17
   '@types/node': 20.5.0
   '@types/pg': ^8.10.2
   '@types/react': 18.2.20
@@ -20,6 +21,7 @@ specifiers:
   typescript: 5.1.6
 
 dependencies:
+  '@headlessui/react': 1.7.17_biqbaboplfbrettd7655fr4n2y
   '@types/node': 20.5.0
   '@types/react': 18.2.20
   '@types/react-dom': 18.2.7
@@ -45,6 +47,18 @@ packages:
   /@alloc/quick-lru/5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+    dev: false
+
+  /@headlessui/react/1.7.17_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-4am+tzvkqDSSgiwrsEpGWqgGo9dz8qU5M3znCkC4PgkpY4HcCZzEDEvozltGGGHIKl9jbXbZPSH5TWn4sWJdow==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@jridgewell/gen-mapping/0.3.3:

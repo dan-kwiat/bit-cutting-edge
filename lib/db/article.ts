@@ -1,4 +1,10 @@
-import { Insertable, Selectable, Updateable } from "kysely"
+import {
+  Insertable,
+  OperandValueExpressionOrList,
+  Selectable,
+  Updateable,
+  sql,
+} from "kysely"
 import { db } from "."
 import { DB } from "./db"
 
@@ -106,6 +112,56 @@ export async function deleteArticle(id: number) {
   return await db
     .deleteFrom("article")
     .where("id", "=", id)
+    .returningAll()
+    .executeTakeFirst()
+}
+
+export const LABELLING_TIMEOUT_MINUTES = 10 // make sure this matches the sql interval below
+const LABELLING_TIMEOUT_SQL =
+  sql`now() - INTERVAL '10 minutes'` as OperandValueExpressionOrList<
+    DB,
+    "article",
+    "reserved_at"
+  >
+
+export async function reserveArticle(email: string) {
+  return (await db
+    .with("article_to_label", (db) =>
+      db
+        .selectFrom("article")
+        .where("topic_id", "is", null)
+        .where((eb) =>
+          eb.or([
+            eb("reserved_at", "is", null),
+            eb("reserved_at", "<", LABELLING_TIMEOUT_SQL),
+          ])
+        )
+        .select("id")
+        .limit(1)
+    )
+    .updateTable("article")
+    .set({
+      reserved_at: sql`now()`,
+      reserved_by_email: email,
+    })
+    .from("article_to_label")
+    .where("article.id", "=", sql`article_to_label.id`)
+    .returningAll()
+    .executeTakeFirst()) as Article | undefined
+  // keysely thinks the return type is from `article_to_label` but it's actually from `article`
+}
+
+export async function labelReservedArticle(id: number, topic_id: number) {
+  return await db
+    .updateTable("article")
+    .set({
+      topic_id,
+      labelled_at: sql`now()`,
+    })
+    .where("id", "=", id)
+    .where("topic_id", "is", null)
+    .where("reserved_at", ">", LABELLING_TIMEOUT_SQL)
+    // we could also pass `reserved_by_email` here and check it matches
     .returningAll()
     .executeTakeFirst()
 }
