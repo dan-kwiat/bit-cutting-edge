@@ -32,7 +32,7 @@ export default function TopicRadios({
           return (
             <div
               key={umbrella}
-              className={`col-span-3 p-2 border rounded ${colorsOfRainbow[idx]}`}
+              className={`col-span-12 sm:col-span-6 lg:col-span-3 p-2 border rounded ${colorsOfRainbow[idx]}`}
             >
               <h2 className="text-lg font-bold text-gray-800 text-center">
                 {umbrella}
