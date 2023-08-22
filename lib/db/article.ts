@@ -56,10 +56,11 @@ export async function findArticles(
   return await query.selectAll().execute()
 }
 
-function stripParams(article: ArticleNew) {
+function stripParams(article: ArticleNew): ArticleNew {
   const {
     source_id,
     topic_id,
+    categories,
     content,
     contentSnippet,
     creator,
@@ -73,6 +74,7 @@ function stripParams(article: ArticleNew) {
   return {
     source_id,
     topic_id,
+    categories,
     content,
     contentSnippet,
     creator,

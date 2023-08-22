@@ -52,13 +52,12 @@ export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable("article")
     .addColumn("id", "serial", (col) => col.primaryKey())
-    // .addColumn("categories",
+    .addColumn("categories", sql`varchar[]`)
     .addColumn("content", "text")
     .addColumn("contentSnippet", "text")
     .addColumn("creator", "text")
     .addColumn("guid", "varchar")
     .addColumn("isoDate", "timestamptz")
-    // link is unique:
     .addColumn("link", "varchar", (col) => col.unique().notNull())
     .addColumn("pubDate", "timestamptz")
     .addColumn("title", "varchar")

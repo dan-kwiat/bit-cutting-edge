@@ -10,6 +10,7 @@ export type TopicUmbrella = "Cross-cutting" | "Economy" | "HASED" | "Health & We
 
 export interface Article {
   id: Generated<number>;
+  categories: string[] | null;
   content: string | null;
   contentSnippet: string | null;
   creator: string | null;
