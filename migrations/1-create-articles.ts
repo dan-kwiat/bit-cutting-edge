@@ -70,7 +70,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     )
     .addColumn("reserved_at", "timestamptz")
     .addColumn("labelled_at", "timestamptz")
-    .addColumn("labelled_by_email", "varchar")
+    .addColumn("reserved_by_email", "varchar")
     .addColumn("created_at", "timestamptz", (col) =>
       col.notNull().defaultTo(sql`now()`)
     )
@@ -89,9 +89,9 @@ export async function up(db: Kysely<any>): Promise<void> {
     .execute()
 
   await db.schema
-    .createIndex("article_labelled_by_email_index")
+    .createIndex("article_reserved_by_email_index")
     .on("article")
-    .column("labelled_by_email")
+    .column("reserved_by_email")
     .execute()
 
   await db.schema
@@ -117,7 +117,7 @@ export async function down(db: Kysely<any>): Promise<void> {
   await db.schema.dropIndex("article_topic_id_index").execute()
   await db.schema.dropIndex("article_source_id_index").execute()
   await db.schema.dropIndex("article_isoDate_index").execute()
-  await db.schema.dropIndex("article_labelled_by_email_index").execute()
+  await db.schema.dropIndex("article_reserved_by_email_index").execute()
   await db.schema.dropIndex("article_labelled_at_index").execute()
   await db.schema.dropIndex("article_reserved_at_index").execute()
   await db.schema.dropTable("article").execute()

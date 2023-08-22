@@ -24,7 +24,7 @@ export interface Article {
   topic_id: number | null;
   reserved_at: Timestamp | null;
   labelled_at: Timestamp | null;
-  labelled_by_email: string | null;
+  reserved_by_email: string | null;
   created_at: Generated<Timestamp>;
 }
 
