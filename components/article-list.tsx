@@ -4,9 +4,7 @@ export default function ArticleList(
   props:
     | { loading: true }
     | {
-        articles: Array<
-          Pick<Article, "link" | "title" | "isoDate" | "contentSnippet">
-        >
+        articles: Array<Article>
         title?: string
         loading?: false
       }
@@ -35,8 +33,10 @@ export default function ArticleList(
             <h2 className="text-lg font-bold text-gray-700">
               {item.link ? <a href={item.link}>{item.title}</a> : item.title}
             </h2>
-            <p className="font-mono">{item.isoDate?.toISOString()}</p>
-            <p className="mt-1">{item.contentSnippet}</p>
+            <p className="font-mono">{item.iso_date?.toISOString()}</p>
+            <p className="mt-1">
+              {item.content_snippet || item.description_meta}
+            </p>
           </li>
         ))}
       </ul>

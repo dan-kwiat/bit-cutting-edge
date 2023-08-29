@@ -1,4 +1,3 @@
-import ArticleList from "@/components/article-list"
 import { findUmbrellaTopics } from "@/lib/db/topic"
 
 export default async function Home() {
@@ -12,15 +11,21 @@ export default async function Home() {
             topicsByUmbrella[umbrella as keyof typeof topicsByUmbrella]
           return (
             <li key={umbrella} className="py-12">
-              <ArticleList
-                title={`${umbrella}: ${topics?.length} Topics`}
-                articles={topics?.map((x) => ({
-                  link: "/",
-                  title: x.title,
-                  contentSnippet: x.umbrella,
-                  isoDate: null,
-                }))}
-              />
+              <section>
+                <h2 className="text-xl font-bold">
+                  {umbrella}: {topics?.length} Topics
+                </h2>
+                <ul className="mt-12 space-y-6">
+                  {topics.map((item) => (
+                    <li key={item.id} className="">
+                      <h2 className="text-lg font-bold text-gray-700">
+                        {item.title}
+                      </h2>
+                      <p className="mt-1">{item.core ? "Core" : "Emerging"}</p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
             </li>
           )
         })}
