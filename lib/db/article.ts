@@ -159,6 +159,7 @@ export async function reserveArticle(
         )
         .innerJoin("source", "article.source_id", "source.id")
         .select(["article.id", "source.title as source_title"])
+        .orderBy(sql`random()`)
         .limit(1)
     )
     .updateTable("article")
