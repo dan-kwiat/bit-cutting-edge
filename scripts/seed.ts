@@ -256,10 +256,10 @@ const TOPICS: Array<TopicNew> = [
     core: false,
     notes: "",
   },
-  { umbrella: "IP", title: "International Development", core: true, notes: "" },
+  { umbrella: "IP", title: "International Programmes", core: true, notes: "" },
   {
     umbrella: "IP",
-    title: "International Development Capacity Building",
+    title: "International Programmes Capacity Building",
     core: true,
     notes: "Reflects nature of the work rather than policy area",
   },
@@ -337,19 +337,25 @@ const TOPICS: Array<TopicNew> = [
     core: false,
     notes: "",
   },
-  // { umbrella: "Cross-cutting", title: "AI and BI", core: false, notes: "" },
-  // {
-  //   umbrella: "Cross-cutting",
-  //   title: "Methods innovation",
-  //   core: false,
-  //   notes: "",
-  // },
+  { umbrella: "Cross-cutting", title: "AI and BI", core: true, notes: "" },
+  {
+    umbrella: "Cross-cutting",
+    title: "Methods innovation",
+    core: true,
+    notes: "",
+  },
+  {
+    umbrella: "Cross-cutting",
+    title: "Relevant to all areas",
+    core: true,
+    notes: "",
+  },
   {
     umbrella: "Other",
     core: false,
     title: "Skip",
     notes:
-      "Use this for complex cases which you don't want to label one way or another",
+      "Use this for complex samples which you don't want to label one way or another",
   },
   {
     umbrella: "Other",
