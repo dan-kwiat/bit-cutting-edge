@@ -3,7 +3,7 @@ import { Topic, UmbrellaTopics } from "@/lib/db/topic"
 import Badge from "@/components/badge"
 
 const colorsOfRainbow = [
-  "bg-red-50 border-red-200",
+  // "bg-red-50 border-red-200",
   "bg-orange-50 border-orange-200",
   "bg-yellow-50 border-yellow-200",
   "bg-green-50 border-green-200",
@@ -24,11 +24,48 @@ export default function TopicRadios({
   setSelected: (topic: Topic) => void
   disabled?: boolean
 }) {
+  const others = umbrellaTopics["Other"]
   return (
     <RadioGroup value={selected} onChange={setSelected} disabled={disabled}>
       <RadioGroup.Label className="sr-only">Policy Area</RadioGroup.Label>
-      <div className="grid grid-cols-12 gap-1">
+      <div className="flex justify-end space-x-2">
+        {others.map((item, idx) => (
+          <RadioGroup.Option
+            key={item.id}
+            value={item}
+            className={({ active, checked, disabled }) =>
+              `${
+                active
+                  ? "ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300"
+                  : ""
+              }
+              ${
+                checked
+                  ? "bg-sky-900 bg-opacity-75 text-white"
+                  : idx === 0
+                  ? "bg-white"
+                  : "bg-red-50"
+              }
+              ${disabled ? "opacity-50" : ""}
+              font-normal w-full sm:w-auto relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
+            }
+          >
+            {({ active, checked }) => (
+              <RadioGroup.Label
+                as="p"
+                className={checked ? "text-white" : "text-gray-900"}
+              >
+                {item.title}
+              </RadioGroup.Label>
+            )}
+          </RadioGroup.Option>
+        ))}
+      </div>
+      <div className="mt-2 grid grid-cols-12 gap-1">
         {Object.keys(umbrellaTopics).map((umbrella, idx) => {
+          if (umbrella === "Other") {
+            return null
+          }
           return (
             <div
               key={umbrella}

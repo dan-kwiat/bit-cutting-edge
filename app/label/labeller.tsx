@@ -9,8 +9,8 @@ import TopicRadios from "./topic-radios"
 import ArticlePreview from "./article-preview"
 
 const articleDateReviver = getDateReviver<Article>([
-  "isoDate",
-  "pubDate",
+  "iso_date",
+  "pub_date",
   "created_at",
   "labelled_at",
   "reserved_at",

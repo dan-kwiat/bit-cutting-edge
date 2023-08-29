@@ -51,7 +51,9 @@ export default function ArticlePreview({
       </h2>
       <p className="text-sm">{article.source_title}</p>
       {/* <p className="text-sm">{article.categories?.join(", ")}</p> */}
-      <p className="mt-1 line-clamp-6">{article.contentSnippet}</p>
+      <p className="mt-1 line-clamp-6">
+        {article.content_snippet || article.description_meta}
+      </p>
     </section>
   )
 }
