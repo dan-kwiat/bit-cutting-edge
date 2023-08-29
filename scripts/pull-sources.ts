@@ -5,6 +5,7 @@ import { ArticleNew, findArticles, insertArticles } from "../lib/db/article"
 import { Source, findSources } from "../lib/db/source"
 import { getMetadata } from "../lib/scrape/meta"
 import { parseDateString } from "../lib/format/date"
+import { HEADERS_FOR_SCRAPING } from "@/lib/scrape/headers"
 
 const parser = new Parser({
   headers: {
@@ -25,7 +26,9 @@ async function parseArticles(
     }
     i++
     console.log(i)
-    const html = await fetch(item.link).then((x) => x.text())
+    const html = await fetch(item.link, {
+      headers: HEADERS_FOR_SCRAPING,
+    }).then((x) => x.text())
     const metadata = await getMetadata(html)
     articles.push({
       content_snippet: item.contentSnippet,

@@ -94,7 +94,6 @@ test("gets og:published_time epoch time", async () => {
   expect(meta.date?.getTime()).toBe(ms)
 })
 
-// gets meta name `citation_publication_date` content:
 test("gets citation_publication_date", async () => {
   const date = new Date("2021-01-01")
   const meta = await getMetadata(
