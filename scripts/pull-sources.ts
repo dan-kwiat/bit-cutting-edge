@@ -5,7 +5,7 @@ import { ArticleNew, findArticles, insertArticles } from "../lib/db/article"
 import { Source, findSources } from "../lib/db/source"
 import { getMetadata } from "../lib/scrape/meta"
 import { parseDateString } from "../lib/format/date"
-import { HEADERS_FOR_SCRAPING } from "@/lib/scrape/headers"
+import { HEADERS_FOR_SCRAPING } from "../lib/scrape/headers"
 
 const parser = new Parser({
   headers: {
