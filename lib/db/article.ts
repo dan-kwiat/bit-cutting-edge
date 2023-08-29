@@ -27,27 +27,27 @@ export async function findArticleByID(
     .executeTakeFirst()
 }
 
-export async function filterNewArticles(
-  articles: Array<Pick<ArticleNew, "link" | "isoDate">>
-) {
-  const withLinkAndDate = articles.filter(
-    (article) => !!article.link && !!article.isoDate
-  )
+// export async function filterNewArticles(
+//   articles: Array<Pick<ArticleNew, "link" | "iso_date">>
+// ) {
+//   const withLinkAndDate = articles.filter(
+//     (article) => !!article.link && !!article.iso_date
+//   )
 
-  const seen = (
-    await db
-      .selectFrom("article")
-      .where(
-        "link",
-        "in",
-        withLinkAndDate.map((x) => x.link!)
-      )
-      .select("link")
-      .execute()
-  ).map((x) => x.link)
+//   const seen = (
+//     await db
+//       .selectFrom("article")
+//       .where(
+//         "link",
+//         "in",
+//         withLinkAndDate.map((x) => x.link!)
+//       )
+//       .select("link")
+//       .execute()
+//   ).map((x) => x.link)
 
-  return withLinkAndDate.filter((article) => !seen.includes(article.link!))
-}
+//   return withLinkAndDate.filter((article) => !seen.includes(article.link!))
+// }
 
 export async function findArticles(
   criteria?: {
@@ -79,12 +79,16 @@ function stripParams(article: ArticleNew): ArticleNew {
     topic_id,
     categories,
     content,
-    contentSnippet,
+    content_snippet,
     creator,
+    description_meta,
     guid,
-    isoDate,
+    iso_date,
+    labelled_at,
     link,
-    pubDate,
+    pub_date,
+    reserved_at,
+    reserved_by_email,
     summary,
     title,
   } = article
@@ -93,12 +97,16 @@ function stripParams(article: ArticleNew): ArticleNew {
     topic_id,
     categories,
     content,
-    contentSnippet,
+    content_snippet,
     creator,
+    description_meta,
     guid,
-    isoDate,
+    iso_date,
+    labelled_at,
     link,
-    pubDate,
+    pub_date,
+    reserved_at,
+    reserved_by_email,
     summary,
     title,
   }
@@ -164,6 +172,18 @@ export async function reserveArticle(
     .executeTakeFirst()) as ArticleWithSourceTitle | undefined
   // keysely can't handle the types here, because of complicated merge of `article` and `article_to_label`
   return article
+}
+
+export async function resetLabels() {
+  await db
+    .updateTable("article")
+    .set({
+      topic_id: null,
+      labelled_at: null,
+      reserved_at: null,
+      reserved_by_email: null,
+    })
+    .execute()
 }
 
 export async function labelReservedArticle(id: number, topic_id: number) {

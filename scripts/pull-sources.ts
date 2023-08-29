@@ -1,4 +1,5 @@
 require("dotenv").config({ path: ".env" })
+import { getMetaDescription } from "../lib/scrape/meta"
 import { db } from "../lib/db"
 import { ArticleNew, findArticles, insertArticles } from "../lib/db/article"
 import { Source, findSources } from "../lib/db/source"
@@ -11,17 +12,34 @@ const parser = new Parser({
   },
 })
 
-function parseArticles(
+async function parseArticles(
   source_id: number,
   items: Array<Parser.Item>
-): Array<ArticleNew> {
-  return items
-    .filter((item) => !!item.link)
-    .map((item) => ({
-      ...item,
+): Promise<Array<ArticleNew>> {
+  let articles = []
+  let i = 0
+  for (const item of items) {
+    if (!item.link) {
+      continue
+    }
+    i++
+    console.log(i)
+    articles.push({
+      content_snippet: item.contentSnippet,
+      categories: item.categories,
+      content: item.content,
+      creator: item.creator,
+      description_meta: await getMetaDescription(item.link),
+      guid: item.guid,
+      iso_date: item.isoDate,
+      pub_date: item.pubDate,
+      summary: item.summary,
+      title: item.title,
       link: item.link!,
       source_id,
-    }))
+    })
+  }
+  return articles
   // we could order by isoDate, but may not always be present
 }
 
@@ -31,7 +49,7 @@ async function persistFeed(source: Source): Promise<Array<ArticleNew>> {
   }
 
   const feed = await parser.parseURL(source.url_rss)
-  const articles = parseArticles(source.id, feed.items)
+  const articles = await parseArticles(source.id, feed.items)
   return await insertArticles(articles)
 }
 
@@ -52,6 +70,7 @@ async function main() {
 
   await db.destroy()
   console.log("Done!")
+  process.exit(0)
 }
 
 main()

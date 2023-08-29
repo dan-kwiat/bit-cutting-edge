@@ -6,18 +6,19 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export type TopicUmbrella = "Cross-cutting" | "Economy" | "HASED" | "Health & Wellbeing" | "IP";
+export type TopicUmbrella = "Cross-cutting" | "Economy" | "HASED" | "Health & Wellbeing" | "IP" | "Other";
 
 export interface Article {
   id: Generated<number>;
+  description_meta: string | null;
   categories: string[] | null;
   content: string | null;
-  contentSnippet: string | null;
+  content_snippet: string | null;
   creator: string | null;
   guid: string | null;
-  isoDate: Timestamp | null;
+  iso_date: Timestamp | null;
   link: string;
-  pubDate: Timestamp | null;
+  pub_date: Timestamp | null;
   title: string | null;
   summary: string | null;
   source_id: number;

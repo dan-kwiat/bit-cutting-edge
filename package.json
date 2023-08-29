@@ -10,6 +10,7 @@
     "migrate-down": "npx ts-node --project tsconfig-scripts.json scripts/migrate-down.ts",
     "migrate-latest": "npx ts-node --project tsconfig-scripts.json scripts/migrate-latest.ts",
     "seed_db": "npx ts-node --project tsconfig-scripts.json scripts/seed.ts",
+    "run_script": "npx ts-node --project tsconfig-scripts.json",
     "pull_sources": "npx ts-node --project tsconfig-scripts.json scripts/pull-sources.ts",
     "generate_db_types": "kysely-codegen --url \"env(POSTGRES_URL)\" --out-file \"./lib/db/db.d.ts\""
   },
@@ -20,6 +21,7 @@
     "@types/react-dom": "18.2.7",
     "@vercel/postgres-kysely": "^0.4.1",
     "autoprefixer": "10.4.15",
+    "cheerio": "1.0.0-rc.12",
     "kysely": "^0.26.1",
     "next": "13.4.16",
     "postcss": "8.4.27",

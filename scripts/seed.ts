@@ -337,12 +337,26 @@ const TOPICS: Array<TopicNew> = [
     core: false,
     notes: "",
   },
-  { umbrella: "Cross-cutting", title: "AI and BI", core: false, notes: "" },
+  // { umbrella: "Cross-cutting", title: "AI and BI", core: false, notes: "" },
+  // {
+  //   umbrella: "Cross-cutting",
+  //   title: "Methods innovation",
+  //   core: false,
+  //   notes: "",
+  // },
   {
-    umbrella: "Cross-cutting",
-    title: "Methods innovation",
+    umbrella: "Other",
     core: false,
-    notes: "",
+    title: "Skip",
+    notes:
+      "Use this for complex cases which you don't want to label one way or another",
+  },
+  {
+    umbrella: "Other",
+    core: false,
+    title: "Not relevant",
+    notes:
+      "Use this for samples which aren't relevant to your topics of interest",
   },
 ]
 

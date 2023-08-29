@@ -3,7 +3,14 @@ import { Kysely, sql } from "kysely"
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createType("topic_umbrella")
-    .asEnum(["HASED", "IP", "Economy", "Health & Wellbeing", "Cross-cutting"])
+    .asEnum([
+      "HASED",
+      "IP",
+      "Economy",
+      "Health & Wellbeing",
+      "Cross-cutting",
+      "Other",
+    ])
     .execute()
 
   await db.schema
@@ -52,14 +59,15 @@ export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable("article")
     .addColumn("id", "serial", (col) => col.primaryKey())
+    .addColumn("description_meta", "text")
     .addColumn("categories", sql`varchar[]`)
     .addColumn("content", "text")
-    .addColumn("contentSnippet", "text")
+    .addColumn("content_snippet", "text")
     .addColumn("creator", "text")
     .addColumn("guid", "varchar")
-    .addColumn("isoDate", "timestamptz")
+    .addColumn("iso_date", "timestamptz")
     .addColumn("link", "varchar", (col) => col.unique().notNull())
-    .addColumn("pubDate", "timestamptz")
+    .addColumn("pub_date", "timestamptz")
     .addColumn("title", "varchar")
     .addColumn("summary", "text")
     .addColumn("source_id", "integer", (col) =>
@@ -95,9 +103,9 @@ export async function up(db: Kysely<any>): Promise<void> {
     .execute()
 
   await db.schema
-    .createIndex("article_isoDate_index")
+    .createIndex("article_iso_date_index")
     .on("article")
-    .column("isoDate")
+    .column("iso_date")
     .execute()
 
   await db.schema
@@ -116,7 +124,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 export async function down(db: Kysely<any>): Promise<void> {
   await db.schema.dropIndex("article_topic_id_index").execute()
   await db.schema.dropIndex("article_source_id_index").execute()
-  await db.schema.dropIndex("article_isoDate_index").execute()
+  await db.schema.dropIndex("article_iso_date_index").execute()
   await db.schema.dropIndex("article_reserved_by_email_index").execute()
   await db.schema.dropIndex("article_labelled_at_index").execute()
   await db.schema.dropIndex("article_reserved_at_index").execute()
