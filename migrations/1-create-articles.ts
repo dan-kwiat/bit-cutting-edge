@@ -65,9 +65,8 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("content_snippet", "text")
     .addColumn("creator", "text")
     .addColumn("guid", "varchar")
-    .addColumn("iso_date", "timestamptz")
+    .addColumn("date", "timestamptz")
     .addColumn("link", "varchar", (col) => col.unique().notNull())
-    .addColumn("pub_date", "timestamptz")
     .addColumn("title", "varchar")
     .addColumn("summary", "text")
     .addColumn("source_id", "integer", (col) =>
@@ -103,9 +102,9 @@ export async function up(db: Kysely<any>): Promise<void> {
     .execute()
 
   await db.schema
-    .createIndex("article_iso_date_index")
+    .createIndex("article_date_index")
     .on("article")
-    .column("iso_date")
+    .column("date")
     .execute()
 
   await db.schema
@@ -124,7 +123,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 export async function down(db: Kysely<any>): Promise<void> {
   await db.schema.dropIndex("article_topic_id_index").execute()
   await db.schema.dropIndex("article_source_id_index").execute()
-  await db.schema.dropIndex("article_iso_date_index").execute()
+  await db.schema.dropIndex("article_date_index").execute()
   await db.schema.dropIndex("article_reserved_by_email_index").execute()
   await db.schema.dropIndex("article_labelled_at_index").execute()
   await db.schema.dropIndex("article_reserved_at_index").execute()

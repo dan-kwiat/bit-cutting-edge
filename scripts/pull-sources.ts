@@ -1,9 +1,10 @@
 require("dotenv").config({ path: ".env" })
-import { getMetaDescription } from "../lib/scrape/meta"
+import Parser from "rss-parser"
 import { db } from "../lib/db"
 import { ArticleNew, findArticles, insertArticles } from "../lib/db/article"
 import { Source, findSources } from "../lib/db/source"
-import Parser from "rss-parser"
+import { getMetaDescription } from "../lib/scrape/meta"
+import { parseDateString } from "../lib/format/date"
 
 const parser = new Parser({
   headers: {
@@ -16,7 +17,7 @@ async function parseArticles(
   source_id: number,
   items: Array<Parser.Item>
 ): Promise<Array<ArticleNew>> {
-  let articles = []
+  let articles: Array<ArticleNew> = []
   let i = 0
   for (const item of items) {
     if (!item.link) {
@@ -24,15 +25,18 @@ async function parseArticles(
     }
     i++
     console.log(i)
+    const metadata = await getMetaDescription(item.link)
     articles.push({
       content_snippet: item.contentSnippet,
       categories: item.categories,
       content: item.content,
       creator: item.creator,
-      description_meta: await getMetaDescription(item.link),
+      description_meta: metadata.description,
       guid: item.guid,
-      iso_date: item.isoDate,
-      pub_date: item.pubDate,
+      date:
+        parseDateString(item.isoDate) ||
+        parseDateString(item.pubDate) ||
+        metadata.date,
       summary: item.summary,
       title: item.title,
       link: item.link!,
@@ -40,7 +44,7 @@ async function parseArticles(
     })
   }
   return articles
-  // we could order by isoDate, but may not always be present
+  // we could order by date, but may not always be present
 }
 
 async function persistFeed(source: Source): Promise<Array<ArticleNew>> {

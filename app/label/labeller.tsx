@@ -2,15 +2,14 @@
 import { Article } from "@/lib/db/article"
 import { useEffect, useState } from "react"
 import { ReqLabelReserve } from "@/app/api/label/reserve/route"
-import { getDateReviver } from "@/lib/format/date-reviver"
+import { getDateReviver } from "@/lib/format/date"
 import { ReqLabel } from "@/app/api/label/route"
 import { Topic, UmbrellaTopics } from "@/lib/db/topic"
 import TopicRadios from "./topic-radios"
 import ArticlePreview from "./article-preview"
 
 const articleDateReviver = getDateReviver<Article>([
-  "iso_date",
-  "pub_date",
+  "date",
   "created_at",
   "labelled_at",
   "reserved_at",

@@ -26,3 +26,33 @@ export function getDateReviver<T>(dateFields: Array<keyof T>) {
 //   jsonString,
 //   getDateReviver<Data>(["created_at", "updated_at"])
 // )
+
+export function parseDateString(
+  dateString: string | undefined
+): Date | undefined {
+  if (!dateString) {
+    return undefined
+  }
+
+  try {
+    let date: Date
+
+    const isIntString = /^\d+$/.test(dateString)
+
+    if (isIntString) {
+      // Assume this is epoch in seconds
+      date = new Date(parseInt(dateString) * 1000)
+    } else {
+      // Assume this is ISO date string or similar
+      date = new Date(dateString)
+    }
+
+    if (isNaN(date.getTime())) {
+      throw new Error(`Invalid date string: ${dateString}`)
+    }
+
+    return date
+  } catch (e) {
+    return undefined
+  }
+}

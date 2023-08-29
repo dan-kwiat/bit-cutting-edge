@@ -27,28 +27,6 @@ export async function findArticleByID(
     .executeTakeFirst()
 }
 
-// export async function filterNewArticles(
-//   articles: Array<Pick<ArticleNew, "link" | "iso_date">>
-// ) {
-//   const withLinkAndDate = articles.filter(
-//     (article) => !!article.link && !!article.iso_date
-//   )
-
-//   const seen = (
-//     await db
-//       .selectFrom("article")
-//       .where(
-//         "link",
-//         "in",
-//         withLinkAndDate.map((x) => x.link!)
-//       )
-//       .select("link")
-//       .execute()
-//   ).map((x) => x.link)
-
-//   return withLinkAndDate.filter((article) => !seen.includes(article.link!))
-// }
-
 export async function findArticles(
   criteria?: {
     topic_ids?: Array<Article["topic_id"]>
@@ -83,10 +61,9 @@ function stripParams(article: ArticleNew): ArticleNew {
     creator,
     description_meta,
     guid,
-    iso_date,
+    date,
     labelled_at,
     link,
-    pub_date,
     reserved_at,
     reserved_by_email,
     summary,
@@ -101,10 +78,9 @@ function stripParams(article: ArticleNew): ArticleNew {
     creator,
     description_meta,
     guid,
-    iso_date,
+    date,
     labelled_at,
     link,
-    pub_date,
     reserved_at,
     reserved_by_email,
     summary,
@@ -157,9 +133,10 @@ export async function reserveArticle(
             eb("reserved_at", "<", LABELLING_TIMEOUT_SQL),
           ])
         )
+        .where("date", ">", sql`now() - INTERVAL '1 year'`)
         .innerJoin("source", "article.source_id", "source.id")
         .select(["article.id", "source.title as source_title"])
-        .orderBy("iso_date", "desc")
+        .orderBy(sql`random()`)
         .limit(1)
     )
     .updateTable("article")

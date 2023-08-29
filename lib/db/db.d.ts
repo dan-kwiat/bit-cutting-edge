@@ -16,9 +16,8 @@ export interface Article {
   content_snippet: string | null;
   creator: string | null;
   guid: string | null;
-  iso_date: Timestamp | null;
+  date: Timestamp | null;
   link: string;
-  pub_date: Timestamp | null;
   title: string | null;
   summary: string | null;
   source_id: number;
