@@ -3,7 +3,7 @@ import Parser from "rss-parser"
 import { db } from "../lib/db"
 import { ArticleNew, findArticles, insertArticles } from "../lib/db/article"
 import { Source, findSources } from "../lib/db/source"
-import { getMetaDescription } from "../lib/scrape/meta"
+import { getMetadata } from "../lib/scrape/meta"
 import { parseDateString } from "../lib/format/date"
 
 const parser = new Parser({
@@ -25,7 +25,8 @@ async function parseArticles(
     }
     i++
     console.log(i)
-    const metadata = await getMetaDescription(item.link)
+    const html = await fetch(item.link).then((x) => x.text())
+    const metadata = await getMetadata(html)
     articles.push({
       content_snippet: item.contentSnippet,
       categories: item.categories,

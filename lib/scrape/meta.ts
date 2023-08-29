@@ -24,12 +24,10 @@ function getDate(dateStrings: Array<string | undefined>): Date | undefined {
   return undefined
 }
 
-export async function getMetaDescription(url: string): Promise<{
+export async function getMetadata(html: string): Promise<{
   description: string | undefined
   date: Date | undefined
 }> {
-  const response = await fetch(url)
-  const html = await response.text()
   const $ = load(html)
   const description = $('meta[name="description"]').attr("content")
   const ogDescription = $('meta[property="og:description"]').attr("content")

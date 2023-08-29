@@ -48,6 +48,8 @@ export async function findArticles(
     query = query.limit(params.limit)
   }
 
+  query = query.orderBy("date", "desc")
+
   return await query.selectAll().execute()
 }
 
