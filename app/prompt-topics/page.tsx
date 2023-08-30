@@ -1,3 +1,4 @@
+import ArticleList from "@/components/article-list"
 import { Article, findArticles } from "@/lib/db/article"
 import { findTopics } from "@/lib/db/topic"
 
@@ -34,34 +35,13 @@ export default async function Home() {
     <main className="px-2 py-12 text-gray-800">
       <div className="divide-y-4">
         {topics.map((item) => {
-          const articles = topicArticles[item.id] || []
           return (
-            <section key={item.id} className="py-12">
-              <h2 className="text-2xl font-bold">
-                Topic: {item.title} ({item.umbrella})
-              </h2>
-              {articles.length > 0 ? (
-                <ul className="mt-4 space-y-6">
-                  {articles.map((article) => {
-                    return (
-                      <li key={article.id} className="">
-                        <h2 className="text-lg font-bold text-gray-700">
-                          {article.title}
-                        </h2>
-                        <time className="text-sm text-gray-500">
-                          {article.date?.toISOString().split("T")[0]}
-                        </time>
-                        <p className="mt-1 line-clamp-3 text-gray-500">
-                          {article.content_snippet || article.description_meta}
-                        </p>
-                      </li>
-                    )
-                  })}
-                </ul>
-              ) : (
-                <p className="mt-4">No articles found.</p>
-              )}
-            </section>
+            <div key={item.id} className="py-12">
+              <ArticleList
+                title={`Topic: ${item.title} (${item.umbrella})`}
+                articles={topicArticles[item.id] || []}
+              />
+            </div>
           )
         })}
       </div>
