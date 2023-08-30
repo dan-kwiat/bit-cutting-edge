@@ -111,3 +111,57 @@ test("gets citation_publication_date", async () => {
   )
   expect(meta.date?.getTime()).toBe(date.getTime())
 })
+
+test("gets og:image", async () => {
+  const image = "https://example.com/image.png"
+  const meta = await getMetadata(
+    `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:image" content="${image}">
+  </head>
+  <body>
+    <h1>Your Webpage Title</h1>
+  </body>
+</html>
+`.trim()
+  )
+  expect(meta.image).toBe(image)
+})
+
+test("gets og:image:url", async () => {
+  const image = "https://example.com/image.png"
+  const meta = await getMetadata(
+    `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:image:url" content="${image}">
+  </head>
+  <body>
+    <h1>Your Webpage Title</h1>
+  </body>
+</html>
+`.trim()
+  )
+  expect(meta.image).toBe(image)
+})
+
+test("gets og:image:secure_url", async () => {
+  const image = "https://example.com/image.png"
+  const meta = await getMetadata(
+    `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:image:secure_url" content="${image}">
+  </head>
+  <body>
+    <h1>Your Webpage Title</h1>
+  </body>
+</html>
+`.trim()
+  )
+  expect(meta.image).toBe(image)
+})
