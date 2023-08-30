@@ -29,12 +29,17 @@ export async function findArticleByID(
 
 export async function findArticles(
   criteria?: {
+    ids?: Array<Article["id"]>
     topic_ids?: Array<Article["topic_id"]>
     source_ids?: Array<Article["source_id"]>
   },
   params?: { limit?: number }
-) {
+): Promise<Array<Article>> {
   let query = db.selectFrom("article")
+
+  if (criteria?.ids) {
+    query = query.where("id", "in", criteria.ids)
+  }
 
   if (criteria?.topic_ids) {
     query = query.where("topic_id", "in", criteria.topic_ids)
