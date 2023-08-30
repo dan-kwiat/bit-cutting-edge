@@ -1,16 +1,37 @@
-import ArticleList from "@/components/article-list"
-import { findArticles } from "@/lib/db/article"
+import FiltersPage from "@/components/filters"
+import { findSources } from "@/lib/db/source"
+import { findTopics } from "@/lib/db/topic"
 
-export const revalidate = 10 // revalidate data at most every 10 seconds
+export default async function PromptTopics() {
+  const topics = await findTopics({})
+  const sources = await findSources({ hasRSS: true })
 
-export default async function Home() {
-  let articles = await findArticles({}, { limit: 100 })
   return (
-    <main className="px-2 py-12 text-gray-500">
-      <ArticleList
-        title={`Top ${articles.length} articles`}
-        articles={articles}
-      />
-    </main>
+    <FiltersPage
+      defaultFilters={[
+        {
+          id: "topic",
+          name: "Policy Area",
+          options: topics.map((item) => {
+            return {
+              value: item.id,
+              label: item.title,
+              checked: false,
+            }
+          }),
+        },
+        {
+          id: "source",
+          name: "Source",
+          options: sources.map((item) => {
+            return {
+              value: item.id,
+              label: item.title,
+              checked: false,
+            }
+          }),
+        },
+      ]}
+    />
   )
 }
