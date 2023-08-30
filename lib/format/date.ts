@@ -1,11 +1,31 @@
-export function getDateReviver<T>(dateFields: Array<keyof T>) {
-  return function (key: string, value: any) {
-    if (dateFields.indexOf(key as keyof T) > -1) {
-      return new Date(value)
+import { Article } from "../db/article"
+
+// works on objects and arrays of objects:
+export function getDateReviver<T>(
+  dateFields: Array<keyof T>
+): (key: any, value: any) => any {
+  return function reviver(key: any, value: any): any {
+    if (Array.isArray(value)) {
+      return value.map((item) => {
+        dateFields.forEach((propertyName) => {
+          if (item && item[propertyName]) {
+            item[propertyName] = new Date(item[propertyName])
+          }
+        })
+        return item
+      })
+    } else if (value && typeof value === "object") {
+      dateFields.forEach((propertyName) => {
+        if (value[propertyName]) {
+          value[propertyName] = new Date(value[propertyName])
+        }
+      })
+      return value
     }
     return value
   }
 }
+
 // Usage example for `getDateReviver`:
 //
 // interface Data {
@@ -26,6 +46,13 @@ export function getDateReviver<T>(dateFields: Array<keyof T>) {
 //   jsonString,
 //   getDateReviver<Data>(["created_at", "updated_at"])
 // )
+
+export const articleDateReviver = getDateReviver<Article>([
+  "date",
+  "created_at",
+  "labelled_at",
+  "reserved_at",
+])
 
 export function parseDateString(
   dateString: string | undefined

@@ -60,19 +60,6 @@ export default async function Home() {
           }),
         },
       ]}
-    >
-      <div className="divide-y-4 max-h-screen overflow-auto">
-        {topics.map((item) => {
-          return (
-            <div key={item.id} className="py-12">
-              <ArticleList
-                title={`Topic: ${item.title} (${item.umbrella})`}
-                articles={topicArticles[item.id] || []}
-              />
-            </div>
-          )
-        })}
-      </div>
-    </FiltersPage>
+    />
   )
 }

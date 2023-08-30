@@ -33,7 +33,7 @@ export async function findArticles(
     topic_ids?: Array<Article["topic_id"]>
     source_ids?: Array<Article["source_id"]>
   },
-  params?: { limit?: number }
+  params: { limit?: number } = { limit: 10 }
 ): Promise<Array<Article>> {
   let query = db.selectFrom("article")
 

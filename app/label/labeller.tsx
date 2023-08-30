@@ -2,18 +2,12 @@
 import { Article } from "@/lib/db/article"
 import { useEffect, useState } from "react"
 import { ReqLabelReserve } from "@/app/api/label/reserve/route"
-import { getDateReviver } from "@/lib/format/date"
 import { ReqLabel } from "@/app/api/label/route"
 import { Topic, UmbrellaTopics } from "@/lib/db/topic"
 import TopicRadios from "./topic-radios"
 import ArticlePreview from "./article-preview"
-
-const articleDateReviver = getDateReviver<Article>([
-  "date",
-  "created_at",
-  "labelled_at",
-  "reserved_at",
-])
+import { fetchWithDateRevival } from "@/lib/fetch"
+import { articleDateReviver } from "@/lib/format/date"
 
 const MIN_PERSIST_TIME_MS = 1000
 
@@ -39,17 +33,13 @@ export default function Labeller({
       email: "dan@example.com",
     }
     setArticle(undefined)
-    fetch("/api/label/reserve", {
+    fetchWithDateRevival(articleDateReviver)("/api/label/reserve", {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.text()) // don't use res.json() so we can revive dates with JSON.parse()
-      .then((text) => {
-        return JSON.parse(text, articleDateReviver)
-      })
       .then((data: ReqLabelReserve["post"]["response"]) => {
         setArticle(data.article)
       })
@@ -75,17 +65,13 @@ export default function Labeller({
       article_id: article.id,
       topic_id: selected.id,
     }
-    fetch("/api/label", {
+    fetchWithDateRevival(articleDateReviver)("/api/label", {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.text()) // don't use res.json() so we can revive dates with JSON.parse()
-      .then((text) => {
-        return JSON.parse(text, articleDateReviver)
-      })
       .then((data: ReqLabelReserve["post"]["response"]) => {
         console.log("successfully labelled article")
         console.log(data.article)

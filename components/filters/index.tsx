@@ -5,9 +5,15 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { ChevronDownIcon, FunnelIcon } from "@heroicons/react/20/solid"
 import FilterSection from "./filter-section"
 import { classNames } from "@/lib/format/classNames"
+import ArticleList from "../article-list"
+import useSWR from "swr"
+import { ReqArticles } from "@/app/api/articles/route"
+import { fetchWithDateRevival } from "@/lib/fetch"
+import { articleDateReviver } from "@/lib/format/date"
 
 const sortOptions = [{ name: "Newest", href: "#", current: true }]
-const subCategories = [
+
+const umbrellas = [
   { name: "HASED", href: "#" },
   { name: "IP", href: "#" },
   { name: "Economy", href: "#" },
@@ -24,13 +30,15 @@ export interface FilterOptions {
 }
 
 export default function FiltersPage({
-  children,
   filters,
 }: {
-  children: React.ReactNode
   filters: Array<FilterOptions>
 }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const { data, error, isLoading } = useSWR<ReqArticles["get"]["response"]>(
+    `/api/articles?source_ids=`,
+    fetchWithDateRevival(articleDateReviver)
+  )
 
   return (
     <div className="bg-white">
@@ -86,7 +94,7 @@ export default function FiltersPage({
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
                     >
-                      {subCategories.map((category) => (
+                      {umbrellas.map((category) => (
                         <li key={category.name}>
                           <a href={category.href} className="block px-2 py-3">
                             {category.name}
@@ -188,7 +196,7 @@ export default function FiltersPage({
                   role="list"
                   className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900"
                 >
-                  {subCategories.map((category) => (
+                  {umbrellas.map((category) => (
                     <li key={category.name}>
                       <a href={category.href}>{category.name}</a>
                     </li>
@@ -201,7 +209,13 @@ export default function FiltersPage({
               </form>
 
               {/* Items */}
-              <div className="lg:col-span-3">{children}</div>
+              <div className="lg:col-span-3 max-h-screen overflow-auto">
+                <ArticleList
+                  // title={`Topic: ${item.title} (${item.umbrella})`}
+                  articles={data ? data.articles : []}
+                  loading={isLoading}
+                />
+              </div>
             </div>
           </section>
         </main>
