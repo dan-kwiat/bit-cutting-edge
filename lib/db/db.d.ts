@@ -17,6 +17,7 @@ export interface Article {
   creator: string | null;
   guid: string | null;
   date: Timestamp | null;
+  image: string | null;
   link: string;
   title: string | null;
   summary: string | null;

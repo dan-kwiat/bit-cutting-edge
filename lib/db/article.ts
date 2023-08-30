@@ -58,48 +58,10 @@ export async function findArticles(
   return await query.selectAll().execute()
 }
 
-function stripParams(article: ArticleNew): ArticleNew {
-  const {
-    source_id,
-    topic_id,
-    categories,
-    content,
-    content_snippet,
-    creator,
-    description_meta,
-    guid,
-    date,
-    labelled_at,
-    link,
-    reserved_at,
-    reserved_by_email,
-    summary,
-    title,
-  } = article
-  return {
-    source_id,
-    topic_id,
-    categories,
-    content,
-    content_snippet,
-    creator,
-    description_meta,
-    guid,
-    date,
-    labelled_at,
-    link,
-    reserved_at,
-    reserved_by_email,
-    summary,
-    title,
-  }
-}
-
 export async function insertArticles(articles: Array<ArticleNew>) {
   return await db
     .insertInto("article")
-    .values(articles.map((x) => stripParams(x)))
-    // todo: filter out articles before trying to insert, so we don't have to classify old articles again
+    .values(articles)
     .onConflict((oc) => oc.column("link").doNothing())
     .returningAll()
     .execute()

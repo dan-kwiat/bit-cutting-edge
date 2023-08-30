@@ -66,6 +66,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("creator", "text")
     .addColumn("guid", "varchar")
     .addColumn("date", "timestamptz")
+    .addColumn("image", "varchar")
     .addColumn("link", "varchar", (col) => col.unique().notNull())
     .addColumn("title", "varchar")
     .addColumn("summary", "text")

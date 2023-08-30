@@ -41,9 +41,10 @@ async function parseArticles(
         parseDateString(item.isoDate) ||
         parseDateString(item.pubDate) ||
         metadata.date,
+      image: metadata.image,
+      link: item.link!,
       summary: item.summary,
       title: item.title,
-      link: item.link!,
       source_id,
     })
   }
