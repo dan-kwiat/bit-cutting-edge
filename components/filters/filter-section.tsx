@@ -6,9 +6,11 @@ import { FilterOptions } from "."
 export default function FilterSection({
   filters,
   mobile,
+  onFilter,
 }: {
   filters: FilterOptions
   mobile?: boolean
+  onFilter: (filterId: string, optionIdx: number, checked: boolean) => void
 }) {
   return (
     <Disclosure
@@ -49,6 +51,9 @@ export default function FilterSection({
                     type="checkbox"
                     defaultChecked={option.checked}
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    onChange={(e) =>
+                      onFilter(filters.id, optionIdx, e.target.checked)
+                    }
                   />
                   <label
                     htmlFor={`${mobile ? "filter-mobile" : "filter"}-${

@@ -29,16 +29,56 @@ export interface FilterOptions {
   }>
 }
 
+function getIdsArray(filters: Array<FilterOptions>, id: string) {
+  return filters.reduce((acc, filter) => {
+    if (filter.id !== id) return acc
+    const checked = filter.options.filter((option) => option.checked)
+    if (checked.length > 0) {
+      acc.push(...checked.map((option) => option.value))
+    }
+    return acc
+  }, [] as number[])
+}
+
 export default function FiltersPage({
-  filters,
+  defaultFilters,
 }: {
-  filters: Array<FilterOptions>
+  defaultFilters: Array<FilterOptions>
 }) {
+  const [filters, setFilters] = useState(defaultFilters)
+
+  const sourceIds = getIdsArray(filters, "source")
+  const topicIds = getIdsArray(filters, "topic")
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const { data, error, isLoading } = useSWR<ReqArticles["get"]["response"]>(
-    `/api/articles?source_ids=`,
+    `/api/articles?source_ids=${
+      sourceIds?.length > 0 ? JSON.stringify(sourceIds) : ""
+    }&topic_ids=${topicIds?.length > 0 ? JSON.stringify(topicIds) : ""}`,
     fetchWithDateRevival(articleDateReviver)
   )
+
+  function onFilter(id: string, optionIdx: number, checked: boolean) {
+    setFilters((prev) => {
+      const sectionIdx = prev.findIndex((section) => section.id === id)
+      const option = prev[sectionIdx].options[optionIdx]
+      return [
+        ...prev.slice(0, sectionIdx),
+        {
+          ...prev[sectionIdx],
+          options: [
+            ...prev[sectionIdx].options.slice(0, optionIdx),
+            {
+              ...option,
+              checked,
+            },
+            ...prev[sectionIdx].options.slice(optionIdx + 1),
+          ],
+        },
+        ...prev.slice(sectionIdx + 1),
+      ]
+    })
+  }
 
   return (
     <div className="bg-white">
@@ -104,7 +144,12 @@ export default function FiltersPage({
                     </ul>
 
                     {filters.map((section) => (
-                      <FilterSection filters={section} mobile />
+                      <FilterSection
+                        key={section.id}
+                        filters={section}
+                        onFilter={onFilter}
+                        mobile
+                      />
                     ))}
                   </form>
                 </Dialog.Panel>
@@ -204,7 +249,11 @@ export default function FiltersPage({
                 </ul>
 
                 {filters.map((section) => (
-                  <FilterSection filters={section} />
+                  <FilterSection
+                    key={section.id}
+                    filters={section}
+                    onFilter={onFilter}
+                  />
                 ))}
               </form>
 

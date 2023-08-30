@@ -36,7 +36,7 @@ export default async function Home() {
 
   return (
     <FiltersPage
-      filters={[
+      defaultFilters={[
         {
           id: "topic",
           name: "Policy Area",
