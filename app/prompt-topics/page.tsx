@@ -1,5 +1,7 @@
 import ArticleList from "@/components/article-list"
+import FiltersPage from "@/components/filters"
 import { Article, findArticles } from "@/lib/db/article"
+import { findSources } from "@/lib/db/source"
 import { findTopics } from "@/lib/db/topic"
 
 const topicArticleIds = {
@@ -25,6 +27,7 @@ const topicArticleIds = {
 
 export default async function Home() {
   const topics = await findTopics({})
+  const sources = await findSources({ hasRSS: true })
 
   let topicArticles: Record<string, Array<Article>> = {}
   for (const [key, value] of Object.entries(topicArticleIds)) {
@@ -32,8 +35,33 @@ export default async function Home() {
   }
 
   return (
-    <main className="px-2 py-12 text-gray-800">
-      <div className="divide-y-4">
+    <FiltersPage
+      filters={[
+        {
+          id: "topic",
+          name: "Policy Area",
+          options: topics.map((item) => {
+            return {
+              value: item.id,
+              label: item.title,
+              checked: false,
+            }
+          }),
+        },
+        {
+          id: "source",
+          name: "Source",
+          options: sources.map((item) => {
+            return {
+              value: item.id,
+              label: item.title,
+              checked: false,
+            }
+          }),
+        },
+      ]}
+    >
+      <div className="divide-y-4 max-h-screen overflow-auto">
         {topics.map((item) => {
           return (
             <div key={item.id} className="py-12">
@@ -45,6 +73,6 @@ export default async function Home() {
           )
         })}
       </div>
-    </main>
+    </FiltersPage>
   )
 }
