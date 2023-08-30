@@ -25,7 +25,7 @@ const topicArticleIds = {
   "21": [196],
 }
 
-export default async function Home() {
+export default async function PromptTopics() {
   const topics = await findTopics({})
   const sources = await findSources({ hasRSS: true })
 

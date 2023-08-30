@@ -42,8 +42,10 @@ function getIdsArray(filters: Array<FilterOptions>, id: string) {
 
 export default function FiltersPage({
   defaultFilters,
+  placeholder,
 }: {
   defaultFilters: Array<FilterOptions>
+  placeholder?: boolean
 }) {
   const [filters, setFilters] = useState(defaultFilters)
 
@@ -52,9 +54,11 @@ export default function FiltersPage({
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const { data, error, isLoading } = useSWR<ReqArticles["get"]["response"]>(
-    `/api/articles?source_ids=${
-      sourceIds?.length > 0 ? JSON.stringify(sourceIds) : ""
-    }&topic_ids=${topicIds?.length > 0 ? JSON.stringify(topicIds) : ""}`,
+    placeholder
+      ? null
+      : `/api/articles?source_ids=${
+          sourceIds?.length > 0 ? JSON.stringify(sourceIds) : ""
+        }&topic_ids=${topicIds?.length > 0 ? JSON.stringify(topicIds) : ""}`,
     fetchWithDateRevival(articleDateReviver)
   )
 
