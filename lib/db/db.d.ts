@@ -29,6 +29,13 @@ export interface Article {
   created_at: Generated<Timestamp>;
 }
 
+export interface ArticleTopicZeroShot {
+  id: Generated<number>;
+  article_id: number;
+  topic_id: number;
+  created_at: Generated<Timestamp>;
+}
+
 export interface Source {
   id: Generated<number>;
   title: string;
@@ -56,6 +63,7 @@ export interface Topic {
 
 export interface DB {
   article: Article;
+  article_topic_zero_shot: ArticleTopicZeroShot;
   source: Source;
   topic: Topic;
 }

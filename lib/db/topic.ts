@@ -17,7 +17,7 @@ export async function findTopics(criteria: Partial<Pick<Topic, "umbrella">>) {
     query = query.where("umbrella", "=", criteria.umbrella)
   }
 
-  return await query.selectAll().execute()
+  return await query.orderBy("id").selectAll().execute()
 }
 
 export type UmbrellaTopics = {

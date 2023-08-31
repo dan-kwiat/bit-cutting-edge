@@ -35,14 +35,24 @@ export async function findArticles(
   },
   params: { limit?: number } = { limit: 12 }
 ): Promise<Array<Article>> {
-  let query = db.selectFrom("article")
+  let query = db
+    .selectFrom("article")
+    .leftJoin(
+      "article_topic_zero_shot",
+      "article_topic_zero_shot.article_id",
+      "article.id"
+    )
 
   if (criteria?.ids) {
     query = query.where("id", "in", criteria.ids)
   }
 
   if (criteria?.topic_ids) {
-    query = query.where("topic_id", "in", criteria.topic_ids)
+    query = query.where(
+      "article_topic_zero_shot.topic_id",
+      "in",
+      criteria.topic_ids
+    )
   }
 
   if (criteria?.source_ids) {
@@ -55,7 +65,7 @@ export async function findArticles(
 
   query = query.orderBy("date", "desc")
 
-  return await query.selectAll().execute()
+  return await query.selectAll("article").execute()
 }
 
 export async function insertArticles(articles: Array<ArticleNew>) {

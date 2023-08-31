@@ -1,5 +1,5 @@
 "use client"
-import { Fragment, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import { Dialog, Menu, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { ChevronDownIcon, FunnelIcon } from "@heroicons/react/20/solid"
@@ -10,21 +10,28 @@ import useSWR from "swr"
 import { ReqArticles } from "@/app/api/articles/route"
 import { fetchWithDateRevival } from "@/lib/fetch"
 import { articleDateReviver } from "@/lib/format/date"
+import { TopicUmbrella } from "@/lib/db/db"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 const sortOptions = [{ name: "Newest", href: "#", current: true }]
 
-const umbrellas = [
-  { name: "HASED", href: "#" },
-  { name: "IP", href: "#" },
-  { name: "Economy", href: "#" },
+const umbrellas: Array<TopicUmbrella> = [
+  "HASED",
+  "IP",
+  "Economy",
+  "Health & Wellbeing",
+  // "Cross-cutting",
+  // "Other",
 ]
 
 export interface FilterOptions {
   id: string
   name: string
   options: Array<{
-    value: number
+    id: number
     label: string
+    group: string | null
     checked?: boolean
   }>
 }
@@ -34,7 +41,7 @@ function getIdsArray(filters: Array<FilterOptions>, id: string) {
     if (filter.id !== id) return acc
     const checked = filter.options.filter((option) => option.checked)
     if (checked.length > 0) {
-      acc.push(...checked.map((option) => option.value))
+      acc.push(...checked.map((option) => option.id))
     }
     return acc
   }, [] as number[])
@@ -61,6 +68,31 @@ export default function FiltersPage({
         }&topic_ids=${topicIds?.length > 0 ? JSON.stringify(topicIds) : ""}`,
     fetchWithDateRevival(articleDateReviver)
   )
+
+  const query = useSearchParams()
+  const umbrella = query.get("umbrella")
+
+  useEffect(() => {
+    resetFilterSection("topic", umbrella || undefined)
+  }, [umbrella])
+
+  function resetFilterSection(id: string, exceptGroup?: string) {
+    setFilters((prev) => {
+      return prev.map((section) => {
+        return section.id === id
+          ? {
+              ...section,
+              options: section.options.map((option) => {
+                return {
+                  ...option,
+                  checked: !!exceptGroup && option.group === exceptGroup,
+                }
+              }),
+            }
+          : section
+      })
+    })
+  }
 
   function onFilter(id: string, optionIdx: number, checked: boolean) {
     setFilters((prev) => {
@@ -138,11 +170,24 @@ export default function FiltersPage({
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
                     >
+                      <li>
+                        <Link href="/" className="block px-2 py-3">
+                          All
+                        </Link>
+                      </li>
                       {umbrellas.map((category) => (
-                        <li key={category.name}>
-                          <a href={category.href} className="block px-2 py-3">
-                            {category.name}
-                          </a>
+                        <li key={category}>
+                          <Link
+                            href={`?umbrella=${encodeURIComponent(category)}`}
+                            className={classNames(
+                              "block px-2 py-3",
+                              umbrella === category
+                                ? "font-bold"
+                                : "font-medium"
+                            )}
+                          >
+                            {category}
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -245,9 +290,19 @@ export default function FiltersPage({
                   role="list"
                   className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900"
                 >
+                  <li>
+                    <Link href="/">All</Link>
+                  </li>
                   {umbrellas.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
+                    <li key={category}>
+                      <Link
+                        href={`?umbrella=${encodeURIComponent(category)}`}
+                        className={
+                          umbrella === category ? "font-bold" : "font-medium"
+                        }
+                      >
+                        {category}
+                      </Link>
                     </li>
                   ))}
                 </ul>

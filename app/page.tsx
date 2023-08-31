@@ -14,9 +14,10 @@ export default async function PromptTopics() {
           name: "Policy Area",
           options: topics.map((item) => {
             return {
-              value: item.id,
+              id: item.id,
               label: item.title,
               checked: false,
+              group: item.umbrella,
             }
           }),
         },
@@ -25,9 +26,10 @@ export default async function PromptTopics() {
           name: "Source",
           options: sources.map((item) => {
             return {
-              value: item.id,
+              id: item.id,
               label: item.title,
               checked: false,
+              group: item.type,
             }
           }),
         },

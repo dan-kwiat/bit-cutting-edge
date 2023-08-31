@@ -41,15 +41,15 @@ export default function FilterSection({
           <Disclosure.Panel className="pt-6">
             <div className={mobile ? "space-y-6" : "space-y-4"}>
               {filters.options.map((option, optionIdx) => (
-                <div key={option.value} className="flex items-center">
+                <div key={option.id} className="flex items-center">
                   <input
                     id={`${mobile ? "filter-mobile" : "filter"}-${
                       filters.id
                     }-${optionIdx}`}
                     name={`${filters.id}[]`}
-                    defaultValue={option.value}
+                    defaultValue={option.id}
                     type="checkbox"
-                    defaultChecked={option.checked}
+                    checked={option.checked}
                     className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     onChange={(e) =>
                       onFilter(filters.id, optionIdx, e.target.checked)
