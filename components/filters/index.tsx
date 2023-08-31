@@ -262,7 +262,7 @@ export default function FiltersPage({
               </form>
 
               {/* Items */}
-              <div className="lg:col-span-3 max-h-screen overflow-auto">
+              <div className="lg:col-span-3">
                 <ArticleList
                   // title={`Topic: ${item.title} (${item.umbrella})`}
                   articles={data ? data.articles : []}
