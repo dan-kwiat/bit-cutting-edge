@@ -59,7 +59,7 @@ export default function ArticleList(
                 <p className="font-mono text-sm font-normal text-gray-500">
                   {item.date?.toISOString().split("T")[0]}
                 </p>
-                <p className="mt-1 line-clamp-3">
+                <p className="mt-1 line-clamp-3 text-gray-500">
                   {item.content_snippet || item.description_meta}
                 </p>
               </div>
