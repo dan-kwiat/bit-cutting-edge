@@ -14,6 +14,11 @@ const parser = new Parser({
   },
 })
 
+function cleanUrl(url: string) {
+  // we could strip out query params here, but some links might actually rely on them
+  return url
+}
+
 async function parseArticles(
   source_id: number,
   items: Array<Parser.Item>
@@ -24,12 +29,20 @@ async function parseArticles(
     if (!item.link) {
       continue
     }
+    const url = cleanUrl(item.link)
     i++
     console.log(i)
-    const html = await fetch(item.link, {
+    /* Filter out previously seen links */
+    const existing = await findArticles({ links: [url] })
+    if (existing.length > 0) {
+      continue
+    }
+    /* Scrape content */
+    const html = await fetch(url, {
       headers: HEADERS_FOR_SCRAPING,
     }).then((x) => x.text())
     const metadata = await getMetadata(html)
+
     articles.push({
       content_snippet: item.contentSnippet,
       categories: item.categories,
@@ -42,7 +55,7 @@ async function parseArticles(
         parseDateString(item.pubDate) ||
         metadata.date,
       image: metadata.image,
-      link: item.link!,
+      link: url,
       summary: item.summary,
       title: item.title,
       source_id,
@@ -59,6 +72,9 @@ async function persistFeed(source: Source): Promise<Array<ArticleNew>> {
 
   const feed = await parser.parseURL(source.url_rss)
   const articles = await parseArticles(source.id, feed.items)
+  if (articles.length === 0) {
+    return []
+  }
   return await insertArticles(articles)
 }
 

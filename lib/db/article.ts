@@ -32,6 +32,7 @@ export async function findArticles(
     ids?: Array<Article["id"]>
     topic_ids?: Array<Article["topic_id"]>
     source_ids?: Array<Article["source_id"]>
+    links?: Array<Article["link"]>
   },
   params: { limit?: number } = { limit: 12 }
 ): Promise<Array<Article>> {
@@ -57,6 +58,10 @@ export async function findArticles(
 
   if (criteria?.source_ids) {
     query = query.where("source_id", "in", criteria.source_ids)
+  }
+
+  if (criteria?.links) {
+    query = query.where("link", "in", criteria.links)
   }
 
   if (params?.limit) {
