@@ -66,7 +66,7 @@ const SOURCES: Array<SourceNew> = [
     notes: null,
   },
   {
-    title: "Quaterly Journal of Economics",
+    title: "Quarterly Journal of Economics",
     type: "Journal",
     url_home: "https://academic.oup.com/qje/issue/138/3",
     url_rss: "https://academic.oup.com/rss/site_5504/OpenAccess.xml",
@@ -142,6 +142,37 @@ const SOURCES: Array<SourceNew> = [
     geo_region: null,
     open_access: true,
     notes: "Not on twitter",
+  },
+  {
+    title: "Journal of Behavioral Public Administration",
+    type: "Journal",
+    url_home: "https://journal-bpa.org/index.php/jbpa/index",
+    url_rss:
+      "https://journal-bpa.org/index.php/jbpa/gateway/plugin/WebFeedGatewayPlugin/rss2",
+    open_access: true,
+  },
+  {
+    title: "Journal of Behavioral Science & Policy",
+    type: "Journal",
+    url_home: "https://journals.sagepub.com/toc/BSX/current",
+    url_rss:
+      "https://journals.sagepub.com/action/showFeed?ui=0&mi=ehikzz&ai=2b4&jc=bsxa&type=etoc&feed=rss",
+    open_access: true,
+  },
+  {
+    title: "Journal of Behavioral and Experimental Finance",
+    type: "Journal",
+    url_home:
+      "https://www.sciencedirect.com/journal/journal-of-behavioral-and-experimental-finance/vol/39/suppl/C",
+    url_rss: "https://rss.sciencedirect.com/publication/science/22146350",
+    open_access: true,
+  },
+  {
+    title: "Journal of Consumer Psychology",
+    type: "Journal",
+    url_home: "https://myscp.onlinelibrary.wiley.com/journal/15327663",
+    url_rss: "https://myscp.onlinelibrary.wiley.com/feed/15327663/most-recent",
+    open_access: true,
   },
   {
     title: "Journal of Economic Psychology",
