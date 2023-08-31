@@ -337,6 +337,12 @@ const TOPICS: Array<TopicNew> = [
     core: false,
     notes: "",
   },
+  {
+    umbrella: "Health & Wellbeing",
+    title: "Obesity",
+    core: false,
+    notes: "",
+  },
   { umbrella: "Cross-cutting", title: "AI and BI", core: true, notes: "" },
   {
     umbrella: "Cross-cutting",
