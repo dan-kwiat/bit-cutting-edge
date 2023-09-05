@@ -8,6 +8,7 @@ import {
 import { db } from "."
 import { DB } from "./db"
 import { Source } from "./source"
+import { getEmbedding } from "../embedding"
 
 export type Article = Selectable<DB["article"]>
 export type ArticleNew = Insertable<DB["article"]>
@@ -27,12 +28,18 @@ export async function findArticleByID(
     .executeTakeFirst()
 }
 
+function cleanSearch(search: string) {
+  // should we strip anything here, or limit the length?
+  return search.trim()
+}
+
 export async function findArticles(
   criteria?: {
     ids?: Array<Article["id"]>
     topic_ids?: Array<Article["topic_id"]>
     source_ids?: Array<Article["source_id"]>
     links?: Array<Article["link"]>
+    search?: string
   },
   params: { limit?: number } = { limit: 12 }
 ): Promise<Array<Article>> {
@@ -68,7 +75,15 @@ export async function findArticles(
     query = query.limit(params.limit)
   }
 
-  query = query.orderBy("date", "desc")
+  if (criteria?.search) {
+    query = query.orderBy(
+      sql`"embedding_title_desc" <=> ${await getEmbedding(
+        cleanSearch(criteria.search)
+      )}`
+    )
+  } else {
+    query = query.orderBy("date", "desc")
+  }
 
   return await query.selectAll("article").execute()
 }

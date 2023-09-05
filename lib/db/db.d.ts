@@ -27,6 +27,7 @@ export interface Article {
   labelled_at: Timestamp | null;
   reserved_by_email: string | null;
   created_at: Generated<Timestamp>;
+  embedding_title_desc: number[] | null;
 }
 
 export interface ArticleTopicZeroShot {

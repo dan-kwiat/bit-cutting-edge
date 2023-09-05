@@ -6,6 +6,7 @@ import { Source, findSources } from "../lib/db/source"
 import { getMetadata } from "../lib/scrape/meta"
 import { parseDateString } from "../lib/format/date"
 import { HEADERS_FOR_SCRAPING } from "../lib/scrape/headers"
+import { getArticleEmbedding } from "../lib/embedding"
 
 const parser = new Parser({
   headers: {
@@ -59,6 +60,11 @@ async function parseArticles(
       summary: item.summary,
       title: item.title,
       source_id,
+      embedding_title_desc: await getArticleEmbedding({
+        title: item.title,
+        content_snippet: item.contentSnippet,
+        description_meta: metadata.description,
+      }),
     })
   }
   return articles
