@@ -5,13 +5,17 @@ import { PlusIcon } from "@heroicons/react/20/solid"
 import { classNames } from "@/lib/format/classNames"
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "About", href: "/about", current: false },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
 ]
 
 export default function NavBar() {
+  const pathname = usePathname()
+  const activeNavIndex = navigation.findIndex((nav) => nav.href === pathname)
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -31,7 +35,7 @@ export default function NavBar() {
                     )}
                   </Disclosure.Button>
                 </div>
-                <div className="flex flex-shrink-0 items-center">
+                <Link href="/" className="flex flex-shrink-0 items-center">
                   <Image
                     className="rounded"
                     src="/bit-mark.jpeg"
@@ -39,22 +43,22 @@ export default function NavBar() {
                     height={32}
                     alt="BIT Logo"
                   />
-                </div>
+                </Link>
                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-                  {navigation.map((item) => (
-                    <a
+                  {navigation.map((item, idx) => (
+                    <Link
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                        item.current
+                        activeNavIndex === idx
                           ? "bg-gray-900 text-white"
                           : "text-gray-300 hover:bg-gray-700 hover:text-white",
                         "rounded-md px-3 py-2 text-sm font-medium"
                       )}
-                      aria-current={item.current ? "page" : undefined}
+                      aria-current={activeNavIndex === idx ? "page" : undefined}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -104,7 +108,7 @@ export default function NavBar() {
                         {userNavigation.map((item) => (
                           <Menu.Item key={item.name}>
                             {({ active }) => (
-                              <a
+                              <Link
                                 href={item.href}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
@@ -112,7 +116,7 @@ export default function NavBar() {
                                 )}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             )}
                           </Menu.Item>
                         ))}
