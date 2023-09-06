@@ -7,6 +7,7 @@ export interface ReqArticles {
     query: {
       source_ids: string
       topic_ids: string
+      search: string
     }
     response: {
       articles: Array<Article>
@@ -19,6 +20,7 @@ export async function GET(req: NextRequest) {
     const articles = await findArticles({
       source_ids: parseIdsArray<ReqArticles["get"]["query"]>(req, "source_ids"),
       topic_ids: parseIdsArray<ReqArticles["get"]["query"]>(req, "topic_ids"),
+      search: req.nextUrl.searchParams.get("search") || undefined,
     })
     const response: ReqArticles["get"]["response"] = { articles }
 

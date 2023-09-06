@@ -10,11 +10,6 @@ const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "About", href: "/about", current: false },
 ]
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-]
 
 export default function NavBar() {
   return (

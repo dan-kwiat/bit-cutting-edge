@@ -12,7 +12,7 @@ import { fetchWithDateRevival } from "@/lib/fetch"
 import { articleDateReviver } from "@/lib/format/date"
 import { TopicUmbrella } from "@/lib/db/db"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import SearchInput from "./search"
 
 const sortOptions = [{ name: "Newest", href: "#", current: true }]
@@ -60,18 +60,22 @@ export default function FiltersPage({
   const sourceIds = getIdsArray(filters, "source")
   const topicIds = getIdsArray(filters, "topic")
 
+  const router = useRouter()
+  const query = useSearchParams()
+  const umbrella = query.get("umbrella")
+  const search = query.get("search")
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const { data, error, isLoading } = useSWR<ReqArticles["get"]["response"]>(
     placeholder
       ? null
       : `/api/articles?source_ids=${
           sourceIds?.length > 0 ? JSON.stringify(sourceIds) : ""
-        }&topic_ids=${topicIds?.length > 0 ? JSON.stringify(topicIds) : ""}`,
+        }&topic_ids=${
+          topicIds?.length > 0 ? JSON.stringify(topicIds) : ""
+        }&search=${search || ""}`,
     fetchWithDateRevival(articleDateReviver)
   )
-
-  const query = useSearchParams()
-  const umbrella = query.get("umbrella")
 
   useEffect(() => {
     resetFilterSection("topic", umbrella || undefined)
@@ -212,10 +216,16 @@ export default function FiltersPage({
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
             The Cutting Edge
           </h1>
-          <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
-            <div className="flex items-center">
-              {/* <SearchInput /> */}
+          <div className="flex items-baseline justify-between mt-6 border-b border-gray-200 pb-6">
+            <div className="hidden sm:block flex-1 mr-4">
+              <SearchInput
+                onSearch={(search) => {
+                  router.push(`?search=${search}`)
+                }}
+              />
+            </div>
 
+            <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
