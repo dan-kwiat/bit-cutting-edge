@@ -1,7 +1,7 @@
 require("dotenv").config({ path: ".env" })
 import { Configuration, OpenAIApi, ResponseTypes } from "openai-edge"
 import { db } from "../lib/db"
-import { getEmbeddingInput } from "../lib/prompt/get-embedding-input"
+import { getEmbeddingInput } from "../lib/embedding"
 
 // Note: takes ~5 minutes to run through 1000 articles
 
