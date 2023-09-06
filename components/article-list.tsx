@@ -13,13 +13,32 @@ export default function ArticleList(
   if (props.loading) {
     return (
       <section>
-        <h2 className="text-2xl font-bold">Loading articles...</h2>
-        <ul className="mt-12 space-y-6">
-          <li className="">
-            <h2 className="text-lg font-bold text-gray-700">----------</h2>
-            <p className="font-mono">xxxx-xx-xx</p>
-            <p className="mt-1">....................................</p>
-          </li>
+        <ul className="mt-4 grid grid-cols-12 gap-2 animate-pulse">
+          {[1, 2, 3].map((i) => (
+            <li
+              key={i}
+              className="col-span-12 sm:col-span-6 md:col-span-4 border shadow rounded overflow-hidden"
+            >
+              <div className="aspect-[16/9] w-full bg-gray-100 sm:aspect-[2/1] lg:aspect-[3/2]" />
+
+              <div className="px-2 py-3">
+                <h2 className="relative text-lg font-bold text-gray-700 line-clamp-2">
+                  Loading title
+                  <div className="absolute inset-y-0.5 inset-x-0 bg-gray-100"></div>
+                </h2>
+                <p className="relative font-mono text-sm font-normal text-gray-500">
+                  xxxx-xx-xx
+                  <div className="absolute inset-y-0.5 inset-x-0 bg-gray-100"></div>
+                </p>
+                <p className="relative mt-1 line-clamp-3 text-gray-500">
+                  Loading content 1<br />
+                  Loading content 2<br />
+                  Loading content 3
+                  <div className="absolute inset-y-0.5 inset-x-0 bg-gray-100"></div>
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       </section>
     )
