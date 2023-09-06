@@ -13,6 +13,7 @@ import { articleDateReviver } from "@/lib/format/date"
 import { TopicUmbrella } from "@/lib/db/db"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
+import SearchInput from "./search"
 
 const sortOptions = [{ name: "Newest", href: "#", current: true }]
 
@@ -207,13 +208,14 @@ export default function FiltersPage({
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              BIT Cutting Edge
-            </h1>
-
+        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-24">
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+            The Cutting Edge
+          </h1>
+          <div className="flex items-baseline justify-end border-b border-gray-200 pb-6">
             <div className="flex items-center">
+              {/* <SearchInput /> */}
+
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">

@@ -50,7 +50,7 @@ export default function FilterSection({
                     defaultValue={option.id}
                     type="checkbox"
                     checked={option.checked}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500"
                     onChange={(e) =>
                       onFilter(filters.id, optionIdx, e.target.checked)
                     }
