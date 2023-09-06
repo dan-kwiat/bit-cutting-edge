@@ -1,6 +1,10 @@
 import { Article } from "@/lib/db/article"
 import { NewspaperIcon } from "@heroicons/react/24/outline"
 
+function Overlay() {
+  return <span className="absolute inset-y-0.5 inset-x-0 bg-gray-100" />
+}
+
 export default function ArticleList(
   props:
     | { loading: true }
@@ -24,17 +28,17 @@ export default function ArticleList(
               <div className="px-2 py-3">
                 <h2 className="relative text-lg font-bold text-gray-700 line-clamp-2">
                   Loading title
-                  <div className="absolute inset-y-0.5 inset-x-0 bg-gray-100"></div>
+                  <Overlay />
                 </h2>
                 <p className="relative font-mono text-sm font-normal text-gray-500">
                   xxxx-xx-xx
-                  <div className="absolute inset-y-0.5 inset-x-0 bg-gray-100"></div>
+                  <Overlay />
                 </p>
                 <p className="relative mt-1 line-clamp-3 text-gray-500">
                   Loading content 1<br />
                   Loading content 2<br />
                   Loading content 3
-                  <div className="absolute inset-y-0.5 inset-x-0 bg-gray-100"></div>
+                  <Overlay />
                 </p>
               </div>
             </li>
