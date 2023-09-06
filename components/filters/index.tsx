@@ -14,6 +14,8 @@ import { TopicUmbrella } from "@/lib/db/db"
 import Link from "next/link"
 import { useSearchParams, useRouter } from "next/navigation"
 import SearchInput from "./search"
+import Main from "@/components/main"
+import Alert from "../alert"
 
 const sortOptions = [{ name: "Newest", href: "#", current: true }]
 
@@ -212,7 +214,7 @@ export default function FiltersPage({
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 pb-24">
+        <Main>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
             The Cutting Edge
           </h1>
@@ -330,15 +332,21 @@ export default function FiltersPage({
 
               {/* Items */}
               <div className="lg:col-span-3">
-                <ArticleList
-                  // title={`Topic: ${item.title} (${item.umbrella})`}
-                  articles={data ? data.articles : []}
-                  loading={isLoading}
-                />
+                {error ? (
+                  <Alert
+                    title={error?.message || "Oops, something went wrong"}
+                  />
+                ) : (
+                  <ArticleList
+                    // title={`Topic: ${item.title} (${item.umbrella})`}
+                    articles={data ? data.articles : []}
+                    loading={isLoading}
+                  />
+                )}
               </div>
             </div>
           </section>
-        </main>
+        </Main>
       </div>
     </div>
   )

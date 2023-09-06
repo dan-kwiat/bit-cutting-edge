@@ -22,11 +22,19 @@ export async function GET(req: NextRequest) {
       topic_ids: parseIdsArray<ReqArticles["get"]["query"]>(req, "topic_ids"),
       search: req.nextUrl.searchParams.get("search") || undefined,
     })
+
+    if (!articles) {
+      // think this might happen if neon postgres goes down
+      throw new Error("Failed to fetch articles")
+    }
+
     const response: ReqArticles["get"]["response"] = { articles }
 
     return NextResponse.json(response, { status: 200 })
-  } catch (error) {
-    console.error(error)
-    return NextResponse.json({ error }, { status: 500 })
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error?.message || "Failed to fetch articles" },
+      { status: 500 }
+    )
   }
 }
