@@ -6,8 +6,8 @@ import { Inter } from "next/font/google"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Cutting Edge | BIT",
-  description: "Pulls in RSS feeds and displays them on a web page",
+  title: "The Cutting Edge | BIT",
+  description: "Stay up-to-date on the latest research in your policy areas.",
 }
 
 export default function RootLayout({
