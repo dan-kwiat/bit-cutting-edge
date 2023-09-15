@@ -1,5 +1,24 @@
 import { NextRequest } from "next/server"
 
+export function fetchJSON(...args: Parameters<typeof fetch>) {
+  return fetch(...args)
+    .then((res) => {
+      if (res.status < 400) {
+        return res
+      }
+      try {
+        return res.json().then((json: any) => {
+          throw new Error(
+            `Bad response '${res.status}' from server: ${json?.error || ""}`
+          )
+        })
+      } catch (e) {
+        throw new Error(`Bad response '${res.status}' from server`)
+      }
+    })
+    .then((res) => res.json())
+}
+
 export const fetchWithDateRevival =
   (dateReviver: Parameters<typeof JSON.parse>[1]) =>
   (...args: Parameters<typeof fetch>) =>
