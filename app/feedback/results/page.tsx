@@ -24,52 +24,54 @@ export default function Page() {
           {data?.feedback.length} feedback responses:{" "}
           {isValidating ? <Spinner /> : null}
         </h1>
-        {error ? (
-          <p className="mt-12 text-red-500">
-            {error?.message || "Sorry, something went wrong"}
-          </p>
-        ) : isLoading ? (
-          <p className="mt-12 text-gray-500">Finding feedback...</p>
-        ) : (
-          <ul
-            className={classNames(
-              "mt-12 grid gap-2 grid-cols-12",
-              isValidating ? "opacity-50" : "opacity-100"
-            )}
-          >
-            {data?.feedback.map((feedback: Feedback) => (
-              <li
-                className="bg-white p-2 shadow col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 space-y-2"
-                key={feedback.id}
-              >
-                <div className="flex space-x-1">
-                  <p className="text-sm font-medium">Participant:</p>
-                  <p className="text-gray-500 text-sm truncate">
-                    {feedback.participant_name
-                      ? feedback.participant_name
-                      : "Anon"}
+        <div className="mt-4">
+          {error ? (
+            <p className="text-red-500">
+              {error?.message || "Sorry, something went wrong"}
+            </p>
+          ) : isLoading ? (
+            <p className="text-gray-500">Finding feedback...</p>
+          ) : (
+            <ul
+              className={classNames(
+                "gap-2 columns-1 sm:columns-2 lg:columns-3",
+                isValidating ? "opacity-50" : "opacity-100"
+              )}
+            >
+              {data?.feedback.map((feedback: Feedback) => (
+                <li
+                  className="inline-block w-full bg-white p-2 rounded border shadow-lg space-y-2 mt-2"
+                  key={feedback.id}
+                >
+                  <div className="flex space-x-1">
+                    <p className="text-sm font-medium">Participant:</p>
+                    <p className="text-gray-500 text-sm truncate">
+                      {feedback.participant_name
+                        ? feedback.participant_name
+                        : "Anon"}
+                    </p>
+                  </div>
+                  <p className="text-sm font-medium">
+                    Useful now? {feedback.useful ? "👍" : "👎"}
                   </p>
-                </div>
-                <p className="text-sm font-medium">
-                  Useful now? {feedback.useful ? "👍" : "👎"}
-                </p>
-                <p className="text-sm font-medium">
-                  Filters useful? {feedback.filters ? "👍" : "👎"}
-                </p>
-                <div>
-                  <p className="text-sm font-medium">More useful if:</p>
-                  <p className="text-gray-500 text-sm">
-                    {feedback.more_useful}
+                  <p className="text-sm font-medium">
+                    Filters useful? {feedback.filters ? "👍" : "👎"}
                   </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Comments:</p>
-                  <p className="text-gray-500 text-sm">{feedback.comments}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+                  <div>
+                    <p className="text-sm font-medium">More useful if:</p>
+                    <p className="text-gray-500 text-sm">
+                      {feedback.more_useful}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Comments:</p>
+                    <p className="text-gray-500 text-sm">{feedback.comments}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </main>
     </div>
   )
