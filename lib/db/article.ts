@@ -77,7 +77,7 @@ export async function findArticles(
 
   if (criteria?.search) {
     query = query.orderBy(
-      sql`"embedding_title_desc" <=> ${await getEmbedding(
+      sql`"embedding_title_desc" <-> ${await getEmbedding(
         cleanSearch(criteria.search)
       )}`
     )
