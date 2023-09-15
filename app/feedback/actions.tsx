@@ -15,6 +15,9 @@ export async function create(
 
     const feedback: FeedbackNew = {
       useful: formData.get("useful") === "yes",
+      filters: formData.get("filters") === "yes",
+      more_useful: formData.get("more_useful") as string,
+      participant_name: formData.get("participant_name") as string,
       comments: formData.get("comments") as string,
     }
     console.log(feedback)

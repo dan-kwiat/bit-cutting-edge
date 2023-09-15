@@ -39,7 +39,10 @@ export interface ArticleTopicZeroShot {
 
 export interface Feedback {
   id: Generated<number>;
+  participant_name: string | null;
   useful: boolean;
+  filters: boolean;
+  more_useful: string | null;
   comments: string | null;
   created_at: Generated<Timestamp>;
 }
