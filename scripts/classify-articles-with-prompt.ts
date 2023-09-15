@@ -15,10 +15,22 @@ const configuration = new Configuration({
 })
 const openai = new OpenAIApi(configuration)
 
+const LIMIT = 10
+// TODO: insert topic_id for "not relevant" topic, so we don't re-hit gpt for subsequent run of script
+
 async function main() {
   const topicArticles: Record<number, Array<number>> = {}
 
-  const topics = (await findTopics({})).filter(
+  const allTopics = await findTopics({})
+
+  const notRelevant = allTopics.find(
+    (x) => x.umbrella === "Other" && x.title.toLowerCase() === "not relevant"
+  )
+  if (!notRelevant) {
+    throw new Error("Could not find 'not relevant' topic")
+  }
+
+  const topics = allTopics.filter(
     (x) =>
       (
         ["HASED", "Economy", "Health & Wellbeing", "IP"] as Array<TopicUmbrella>
@@ -33,7 +45,7 @@ async function main() {
     )
     .where("article_topic_zero_shot.id", "is", null)
     .selectAll("article")
-    .limit(100)
+    .limit(LIMIT)
     .execute()
 
   console.log(`found ${articles.length} articles`)
@@ -67,21 +79,19 @@ async function main() {
 
     console.log(`Classified as topic ${topicId}: "${article.title}"`)
 
-    if (topicId > 0) {
-      await db
-        .insertInto("article_topic_zero_shot")
-        .values([
-          {
-            article_id: article.id,
-            topic_id: topicId,
-          },
-        ])
-        .onConflict((oc) =>
-          oc.column("article_id").doUpdateSet({ topic_id: topicId })
-        )
-        .returningAll()
-        .execute()
-    }
+    await db
+      .insertInto("article_topic_zero_shot")
+      .values([
+        {
+          article_id: article.id,
+          topic_id: topicId === 0 ? notRelevant.id : topicId,
+        },
+      ])
+      .onConflict((oc) =>
+        oc.column("article_id").doUpdateSet({ topic_id: topicId })
+      )
+      .returningAll()
+      .execute()
 
     if (!topicArticles[topicId]) {
       topicArticles[topicId] = []
