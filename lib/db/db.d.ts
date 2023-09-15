@@ -27,13 +27,20 @@ export interface Article {
   labelled_at: Timestamp | null;
   reserved_by_email: string | null;
   created_at: Generated<Timestamp>;
-  embedding_title_desc: number[] | null;
+  embedding_title_desc: number[];
 }
 
 export interface ArticleTopicZeroShot {
   id: Generated<number>;
   article_id: number;
   topic_id: number;
+  created_at: Generated<Timestamp>;
+}
+
+export interface Feedback {
+  id: Generated<number>;
+  useful: boolean;
+  comments: string | null;
   created_at: Generated<Timestamp>;
 }
 
@@ -65,6 +72,7 @@ export interface Topic {
 export interface DB {
   article: Article;
   article_topic_zero_shot: ArticleTopicZeroShot;
+  feedback: Feedback;
   source: Source;
   topic: Topic;
 }
