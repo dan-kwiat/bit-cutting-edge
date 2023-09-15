@@ -1,6 +1,8 @@
 import { Feedback, findFeedback } from "@/lib/db/feedback"
 import { NextRequest, NextResponse } from "next/server"
 
+export const dynamic = "force-dynamic"
+
 export interface ReqFeedback {
   get: {
     query: {}
