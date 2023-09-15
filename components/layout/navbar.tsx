@@ -6,6 +6,7 @@ import { classNames } from "@/lib/format/classNames"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Button from "@/components/button"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -66,16 +67,15 @@ export default function NavBar() {
               <div className="flex items-center">
                 {isFeedback ? null : (
                   <div className="flex-shrink-0">
-                    <Link
-                      href="/feedback"
-                      className="relative inline-flex items-center gap-x-1.5 rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
-                    >
-                      <PlusIcon
-                        className="-ml-0.5 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                      Leave feedback
-                    </Link>
+                    <Button href="/feedback">
+                      <span className="flex items-center gap-x-1.5">
+                        <PlusIcon
+                          className="-ml-0.5 h-5 w-5"
+                          aria-hidden="true"
+                        />
+                        <span>Leave feedback</span>
+                      </span>
+                    </Button>
                   </div>
                 )}
                 {/* Desktop: profile dropdown */}
