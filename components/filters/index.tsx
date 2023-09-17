@@ -16,6 +16,8 @@ import { useSearchParams, useRouter } from "next/navigation"
 import SearchInput from "./search"
 import Main from "@/components/main"
 import Alert from "../alert"
+// import Image from "next/image"
+// import scissors from "@/public/scissors.jpeg"
 
 const sortOptions = [{ name: "Newest", href: "#", current: true }]
 
@@ -125,6 +127,16 @@ export default function FiltersPage({
 
   return (
     <div className="bg-white">
+      {/* <div className="absolute inset-0 top-16 h-80 bg-gray-300">
+        <Image
+          src={scissors}
+          layout="fill"
+          objectFit="cover"
+          alt="The Cutting Edge"
+        />
+        <div className="absolute inset-0 bg-teal-50/50"></div>
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-teal-50/0 to-teal-50" />
+      </div> */}
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
