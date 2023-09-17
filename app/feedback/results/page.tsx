@@ -5,6 +5,8 @@ import { Feedback } from "@/lib/db/feedback"
 import { fetchJSON } from "@/lib/fetch"
 import Spinner from "@/components/spinner"
 import { classNames } from "@/lib/format/classNames"
+import qr from "@/public/feedback-qr.png"
+import Image from "next/image"
 
 const POLLING_MS = 1000 * 10
 
@@ -52,10 +54,10 @@ export default function Page() {
                     </p>
                   </div>
                   <p className="text-sm font-medium">
-                    Useful now? {feedback.useful ? "👍" : "👎"}
+                    Useful now? {feedback.useful ? "✅" : "❌"}
                   </p>
                   <p className="text-sm font-medium">
-                    Filters useful? {feedback.filters ? "👍" : "👎"}
+                    Filters useful? {feedback.filters ? "✅" : "❌"}
                   </p>
                   <div>
                     <p className="text-sm font-medium">More useful if:</p>
@@ -71,6 +73,21 @@ export default function Page() {
               ))}
             </ul>
           )}
+        </div>
+        <div className="flex mt-12 border-t pt-12 items-center">
+          <Image
+            src={qr}
+            alt="QR code for feedback"
+            className="border border-black"
+          />
+          <div className="ml-4">
+            <p className="text-2xl font-bold tracking-tight text-gray-800">
+              👈 Scan QR to give feedback from your phone
+            </p>
+            <p className="mt-2 text-lg text-gray-500">
+              (Or click the link in zoom chat)
+            </p>
+          </div>
         </div>
       </main>
     </div>
