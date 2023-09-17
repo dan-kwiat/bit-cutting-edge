@@ -4,6 +4,7 @@ import { useState } from "react"
 import { experimental_useFormStatus as useFormStatus } from "react-dom"
 import { useRouter } from "next/navigation"
 import Button from "@/components/button"
+import Link from "next/link"
 
 function ButtonSubmit() {
   const { pending } = useFormStatus()
@@ -214,7 +215,14 @@ export default function Page() {
         <h1 className="text-2xl font-bold tracking-tight text-gray-900">
           Leave feedback
         </h1>
-        <p className="text-gray-500">Please help us out by...</p>
+        <p className="mt-2 text-gray-500">
+          Please help us out by leaving feedback on the initial prototype (which
+          you can try{" "}
+          <Link href="/" className="underline font-medium">
+            here
+          </Link>
+          ).
+        </p>
         <Form />
       </main>
     </div>
