@@ -71,7 +71,7 @@ export default function ArticleList(
                   </div>
                 )}
               </div>
-              <div className="px-2 py-3">
+              <div className="px-2 py-3 bg-white">
                 <h2 className="text-lg font-bold text-gray-700 line-clamp-2">
                   {item.link ? (
                     <a href={item.link}>{item.title}</a>

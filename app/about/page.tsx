@@ -11,8 +11,7 @@ export default function AboutPage() {
           <p>
             This is a prototype of a tool developed by Dan K & Hannah B to
             investigate whether AI (specifically large language models) can help
-            teams stay up-to-date with the latest research relevant to their
-            policy areas.
+            teams stay up-to-date with the latest news and research.
           </p>
           <p>
             The tool pulls in previews of academic papers from 24 journals and
