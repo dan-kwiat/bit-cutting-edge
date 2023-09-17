@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function Page() {
   return (
     <div className="bg-white fixed inset-0">
@@ -12,7 +14,12 @@ export default function Page() {
             </li>
             <li>Time to read, understand & interrogate each paper.</li>
           </ol>
-          <p className="text-4xl">Can AI (LLMs) help reduce these times?</p>
+          <p className="text-4xl">
+            Can AI (LLMs) help reduce these times?{" "}
+            <Link href="/" className="text-sky-500">
+              Demo {"->"}
+            </Link>
+          </p>
         </div>
       </main>
     </div>
