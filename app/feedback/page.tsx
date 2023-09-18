@@ -67,8 +67,8 @@ function Form() {
             <legend className="text-sm font-semibold leading-6 text-gray-900">
               Would you use the platform as it is now in your work?
             </legend>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              i.e. is it already useful enough to browse weekly/monthly?
+            <p className="mt-1 text-sm leading-6 text-gray-500">
+              i.e. is it already useful enough to visit monthly or more?
             </p>
             <div className="mt-6 space-y-6">
               <div className="flex items-center gap-x-3">
@@ -108,10 +108,10 @@ function Form() {
 
           <fieldset className="mt-12">
             <legend className="text-sm font-semibold leading-6 text-gray-900">
-              Are the filters useful?
+              Are the categories useful?
             </legend>
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              e.g. being able to filter by cluster / policy area / source
+            <p className="mt-1 text-sm leading-6 text-gray-500">
+              e.g. being able to filter by cluster or policy area?
             </p>
             <div className="mt-6 space-y-6">
               <div className="flex items-center gap-x-3">
@@ -166,9 +166,9 @@ function Form() {
                 defaultValue={""}
               />
             </div>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
-              e.g. more sources/filters? an automatic summary of the papers from
-              a particular search?
+            <p className="mt-3 text-sm leading-6 text-gray-500">
+              e.g. more sources/filters? automatic summaries of individual
+              papers, or groups of papers?
             </p>
           </div>
 
@@ -189,7 +189,7 @@ function Form() {
                 defaultValue={""}
               />
             </div>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
+            <p className="mt-3 text-sm leading-6 text-gray-500">
               Anything else? Bugs? Criticism? Compliments? 🎣
             </p>
           </div>

@@ -57,7 +57,7 @@ export default function Page() {
                     Useful now? {feedback.useful ? "✅" : "❌"}
                   </p>
                   <p className="text-sm font-medium">
-                    Filters useful? {feedback.filters ? "✅" : "❌"}
+                    Categories useful? {feedback.filters ? "✅" : "❌"}
                   </p>
                   <div>
                     <p className="text-sm font-medium">More useful if:</p>
