@@ -19,12 +19,15 @@ export async function GET(req: NextRequest) {
   try {
     const articles = await findArticles({
       source_ids: parseIdsArray<ReqArticles["get"]["query"]>(req, "source_ids"),
+      // Filter by labels from embedding similarity:
       topic_ids: parseIdsArray<ReqArticles["get"]["query"]>(req, "topic_ids"),
+      // Filter by zero-shot gpt-4 labels:
+      // topic_ids_zero_shot: parseIdsArray<ReqArticles["get"]["query"]>(req, "topic_ids"),
       search: req.nextUrl.searchParams.get("search") || undefined,
     })
 
     if (!articles) {
-      // think this might happen if neon postgres goes down
+      // This might happen if neon postgres goes down
       throw new Error("Failed to fetch articles")
     }
 

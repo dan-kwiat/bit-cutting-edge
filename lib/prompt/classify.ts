@@ -1,6 +1,8 @@
 import { Article } from "../db/article"
 import { Topic } from "../db/topic"
 
+// TODO: insert tell it to use id for "not relevant" topic, instead of "0"
+
 export function getPromptClassify(topics: Array<Topic>, article: Article) {
   return `You are an expert in the following policy areas:
 

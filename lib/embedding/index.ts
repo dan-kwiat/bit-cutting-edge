@@ -1,6 +1,6 @@
 import { ResponseTypes } from "openai-edge"
 import { ArticleNew } from "@/lib/db/article"
-import { openai } from "@/lib/openai"
+import { openai } from "../../lib/openai"
 
 export function getEmbeddingInput(
   article: Pick<ArticleNew, "title" | "content_snippet" | "description_meta">
@@ -22,6 +22,7 @@ export async function getEmbedding(input: string): Promise<Array<number>> {
   if (!embedding || embedding.length !== 1536) {
     throw new Error("Invalid embedding")
   }
+  // console.log(JSON.stringify(embedding))
   return embedding
 }
 

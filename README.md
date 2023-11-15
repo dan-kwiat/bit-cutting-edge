@@ -1,4 +1,4 @@
-# RSS-AI
+# BIT Cutting Edge
 
 ## Steps
 
@@ -28,3 +28,16 @@ On a cronjob:
 cp .env.example .env
 pnpm install
 ```
+
+## DB setup
+
+1. `pnpm run migrate-latest` - creates db tables
+2. `pnpm run seed_db` - inserts sources & topics
+3. `pnpm run pull_sources` - reads feeds from sources and inserts articles
+
+## DB updates
+
+1. Create a migration file (alphabetical order)
+2. Run the migration (check it works going back down too)
+3. `pnpm run generate_db_types` to update typescript types in
+   [/lib/db/db.d.ts](/lib/db/db.d.ts)

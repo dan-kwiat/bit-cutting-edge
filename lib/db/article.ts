@@ -36,6 +36,7 @@ function cleanSearch(search: string) {
 export async function findArticles(
   criteria?: {
     ids?: Array<Article["id"]>
+    topic_ids_zero_shot?: Array<Article["topic_id"]>
     topic_ids?: Array<Article["topic_id"]>
     source_ids?: Array<Article["source_id"]>
     links?: Array<Article["link"]>
@@ -56,10 +57,14 @@ export async function findArticles(
   }
 
   if (criteria?.topic_ids) {
+    query = query.where("topic_id", "in", criteria.topic_ids)
+  }
+
+  if (criteria?.topic_ids_zero_shot) {
     query = query.where(
       "article_topic_zero_shot.topic_id",
       "in",
-      criteria.topic_ids
+      criteria.topic_ids_zero_shot
     )
   }
 
