@@ -57,7 +57,7 @@ export async function findArticles(
   }
 
   if (criteria?.topic_ids) {
-    query = query.where("topic_id", "in", criteria.topic_ids)
+    query = query.where("article.topic_id", "in", criteria.topic_ids)
   }
 
   if (criteria?.topic_ids_zero_shot) {
