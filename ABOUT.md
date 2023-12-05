@@ -43,7 +43,7 @@ The list can be updated by editing `TOPICS` in the file
 
 We explored two methods of categorisation:
 
-### Zero-shot classification
+### 1. Zero-shot classification
 
 This is low effort and more expensive than the other option - although still
 cheap, currently ~$1 to categorise 100 articles using OpenAI's GPT4. Accuracy
@@ -53,7 +53,7 @@ will only get better with each new generation of advanced LLM.
 Categorisation is triggered by manually running a script (instructions in
 [./README.md](./README.md)).
 
-### Embedding similarity classification
+### 2. Embedding similarity classification
 
 If zero-shot classification with an advanced LLM isn't doing a good enough job
 for your topics, or if it proves too costly, we can instead create training data

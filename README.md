@@ -1,5 +1,7 @@
 # BIT Cutting Edge
 
+For a higher-level overview of this tool, see [./ABOUT.md](./ABOUT.md)
+
 ## Requirements
 
 NodeJS and pnpm
