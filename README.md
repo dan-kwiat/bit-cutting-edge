@@ -16,11 +16,23 @@ Update the values in both [./.env](./.env) and [./.env.local](./.env.local).
 
 ## DB setup
 
+We're using a Neon Postgres database via Vercel:
+
+https://vercel.com/integrations/neon
+
+This relies on the `pg_embedding` extension which is now deprecated and should
+be replaced with `pgvector`. See migration guide here -
+https://neon.tech/docs/extensions/pg_embedding - contents of this page have been
+copied to [./pg_embedding_migration.txt](./pg_embedding_migration.txt) for
+posterity.
+
 1. `pnpm run migrate-latest` - creates db tables
 2. `pnpm run seed_db` - inserts sources & topics
 3. `pnpm run pull_sources` - reads feeds from sources and inserts articles
 
 ## DB migrations
+
+To make changes to the database schema:
 
 1. Create a migration file in [./migrations](./migrations) (alphabetical order)
 2. Run the migration with `pnpm run migrate-latest` (check it works going back
@@ -28,14 +40,32 @@ Update the values in both [./.env](./.env) and [./.env.local](./.env.local).
 3. `pnpm run generate_db_types` to auto update typescript types in
    [/lib/db/db.d.ts](/lib/db/db.d.ts)
 
-## Other scripts:
+## Pull & classify articles
 
-Other scripts can be run with:
-`pnpm run run_script scripts/your-script-filename.ts`
+### `pnpm run run_script scripts/pull-sources.ts`
 
-#### classify-articles-with-prompt.ts
+Pull new articles from all journals
+
+### `pnpm run run_script scripts/classify-articles-with-prompt.ts`
 
 This classifies the latest 10 articles using GPT-4 (zero-shot).
+
+## Run the web app locally
+
+```bash
+pnpm run dev
+```
+
+## Build for deployment
+
+Easiest way is via vercel github integration (automatically deploys on each
+commit).
+
+Can also build for prod using `pnpm run build`.
+
+## Other scripts:
+
+Some of these might be useful during development
 
 #### get-and-persist-embeddings.ts
 
@@ -51,19 +81,6 @@ This embeds the article title + description and saves to database. Note that
 
 #### count-labels-by-topic.ts
 
-## Run the web app locally
-
-```bash
-pnpm run dev
-```
-
-## Build for deployment
-
-Easiest way is via vercel github integration (automatically deploys on each
-commit).
-
-Can also build for prod using `pnpm run build`.
-
 ## Challenges
 
 - Volume of articles from rss feeds is quite low, to the extent that human
@@ -72,8 +89,7 @@ Can also build for prod using `pnpm run build`.
 
 ## Articles by source
 
-American Economic Review dominates, but mainly because it goes back further. The
-effect is less pronounced when filtering for articles in the last year.
+American Economic Review dominates, but mainly because it goes back further.
 
 ```json
 [
@@ -144,25 +160,3 @@ Embedding 1000 docs `$0.0001/1k tokens * 0.3k tokens * 1000 docs` = `$0.03`
 
 **Embedding is 300 times cheaper than gpt4 8k for classification** (not taking
 into account cost of vector db)
-
-## Features to add
-
-- [] write script to classify unlabelled articles according to embedding
-  similarity (use psql to find the relevant topic [limit 1])
-- [] date filter
-- [] pagination of results
-- [] always show scrollbar to prevent jitter?
-- [] rate limit search queries?
-- [] better url query state management
-- [] add instruction for adding non-rss sources? (idea: create rss sources
-  ourselves using cheerio + rss writer + caching in `/api/rss/economist`)
-
-## Database client bug?
-
-The cosine similarity ordering `<=>` through vercel postgres randomly started
-causing the query to return zero results (even though the same query worked in
-the vercel query portal). I changed the embedding index to `l2`, and the query
-to ordering by l2 distance `<->`.
-
-Update: cosine seems to now be working again, but pretty sure it's not to do
-with my changes, unless the index somehow got "clogged up"?

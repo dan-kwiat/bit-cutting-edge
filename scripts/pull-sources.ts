@@ -65,6 +65,7 @@ async function parseArticles(
         content_snippet: item.contentSnippet,
         description_meta: metadata.description,
       }),
+      topic_id: null, // todo: get this from embedding cosine similarity
     })
   }
   return articles

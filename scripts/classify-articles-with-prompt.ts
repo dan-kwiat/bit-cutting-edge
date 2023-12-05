@@ -1,19 +1,10 @@
 require("dotenv").config({ path: ".env" })
-import {
-  Configuration,
-  CreateChatCompletionResponse,
-  OpenAIApi,
-  ResponseTypes,
-} from "openai-edge"
+import { CreateChatCompletionResponse, ResponseTypes } from "openai-edge"
+import { openai } from "../lib/openai"
 import { db } from "../lib/db"
 import { getPromptClassify } from "../lib/prompt/classify"
 import { findTopics } from "../lib/db/topic"
 import { TopicUmbrella } from "../lib/db/db"
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
-const openai = new OpenAIApi(configuration)
 
 const LIMIT = 10
 // TODO: insert topic_id for "not relevant" topic, so we don't re-hit gpt for subsequent run of script

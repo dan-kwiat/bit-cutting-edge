@@ -1,14 +1,10 @@
 require("dotenv").config({ path: ".env" })
-import { Configuration, OpenAIApi, ResponseTypes } from "openai-edge"
+import { ResponseTypes } from "openai-edge"
+import { openai } from "../lib/openai"
 import { db } from "../lib/db"
 import { getEmbeddingInput } from "../lib/embedding"
 
 // Note: takes ~5 minutes to run through 1000 articles
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
-const openai = new OpenAIApi(configuration)
 
 async function main() {
   const articlesWithoutEmbeddings = await db
