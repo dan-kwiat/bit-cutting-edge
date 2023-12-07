@@ -27,6 +27,34 @@ export default function AboutPage() {
             including the quality of the categorisation. Please help us define
             the project's direction by completing the very short feedback form!
           </p>
+          {/* link to about.md and github repo in general */}
+          <p>
+            The code is here:{" "}
+            <a
+              href="https://github.com/dan-kwiat/bit-cutting-edge"
+              className="text-blue-500 hover:text-blue-700"
+            >
+              https://github.com/dan-kwiat/bit-cutting-edge
+            </a>
+          </p>
+          <p>
+            See{" "}
+            <a
+              href="https://github.com/dan-kwiat/bit-cutting-edge/blob/main/ABOUT.md"
+              className="text-blue-500 hover:text-blue-700"
+            >
+              ABOUT.md
+            </a>{" "}
+            for more high-level information and{" "}
+            <a
+              href="https://github.com/dan-kwiat/bit-cutting-edge/blob/main/README.md"
+              className="text-blue-500 hover:text-blue-700"
+            >
+              README.md
+            </a>{" "}
+            for more technical information.
+          </p>
+
           <Button href="/feedback">Leave feedback</Button>
         </div>
       </main>
