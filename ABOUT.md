@@ -76,6 +76,27 @@ containing the same words. The accuracy of the search functionality would be
 improved by cleaning up the article preview data, which is variable in length
 between sources, and sometimes erroneous.
 
+## Feedback
+
+We solicited feedback from colleagues through this form:
+
+https://cutting-edge.worthwhile.app/feedback
+
+Results are shown on this page:
+
+https://cutting-edge.worthwhile.app/feedback/results
+
+Here's a one paragraph summary of the feedback (written by Claude):
+
+> Overall the platform shows promise as a useful tool for staying updated on
+> latest research, though further refinements could enhance utility -
+> suggestions include improving search functionality; formatting adjustments
+> like more visible titles/abstracts; additional filters and sorts (e.g. date);
+> streamlining categories; quality cues like upvoting; supplementation in the
+> newsletter; and minor technical fixes. While some current aspects may
+> replicate existing databases, features tailored to BIT interests could set
+> this apart as uniquely valuable.
+
 ## Ideas for future development
 
 - Review the current RSS feed sources to understand the quality and volume of
